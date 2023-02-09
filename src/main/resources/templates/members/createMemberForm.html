@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<div th:replace="fragments/navbar :: navbar" />
+<div class="container">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원가입</h4>
+        </div>
+    </div>
+    <form role="form" action="/members/signup" th:object="${memberCreateForm}" method="post">
+        <div class="mb-3 form-group">
+            <label th:for="email" class="form-label">사용자 email</label>
+            <input type="email" th:field="*{email}" class="form-control" th:errorclass="field-error">
+            <p class="field-error text-danger" th:errors="*{email}">이미 등록된 사용자입니다.</p>
+
+        </div>
+        <div class="mb-3 form-group">
+            <label th:for="password" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control"
+                   th:errorclass="field-error">
+            <p class="field-error text-danger" th:errors="*{password}"></p>
+
+        </div>
+        <div class="mb-3 form-group">
+            <label th:for="passwordCheck" class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{passwordCheck}" class="form-control"
+                   th:errorclass="field-error">
+            <p class="field-error text-danger" th:errors="*{passwordCheck}">비밀번호가 일치하지 않습니다.</p>
+        </div>
+        <div class="mb-3 form-group">
+            <label th:for="name" class="form-label">이름</label>
+            <input type="text" th:field="*{name}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">회원가입</button>
+    </form>
+</div>
+</body>
+</html>
