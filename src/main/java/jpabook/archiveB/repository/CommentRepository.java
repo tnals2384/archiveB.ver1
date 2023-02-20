@@ -27,6 +27,7 @@ public class CommentRepository {
                 .getResultList();
     }
 
+
     public void deleteComment(Comment comment) {
         em.remove(comment);
     }

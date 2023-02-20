@@ -1,34 +1,22 @@
 package jpabook.archiveB.domain;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+@Getter
+@RequiredArgsConstructor
+public enum Category {
+    NOVEL("소설"),
+    IT("IT/프로그래밍"),
+    HEALTH("건강/의학"),
+    QUOTE("시/에세이"),
+    RELIGION("종교"),
+    LANGUAGE("언어"),
+    ECONOMY("경제"),
+    LIFE("가정/생활"),
+    SCIENCE("과학/공학");
 
-@Entity
-@Getter @Setter
-public class Category {
 
-    @Id @GeneratedValue
-    @Column(name = "category_id")
-    private Long id;
-
-    private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Category> child = new ArrayList<>();
-
-    //==연관관계 메서드==//
-    public void addChildCategory(Category child) {
-        this.child.add(child);
-        child.setParent(this);
-    }
-
+    private final String value;
 
 }

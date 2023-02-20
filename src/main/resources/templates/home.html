@@ -1,15 +1,50 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header">
   <title>Hello</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar" />
-<div class="container">
-  <div th:replace="fragments/bodyHeader :: bodyHeader" />
-  안녕하세요
-  <div th:replace="fragments/footer :: footer" />
-</div> <!-- /container -->
+<div class="d-flex" id="wrapper">
+  <th:block th:replace="fragments/sidebar :: sidebar" />
+  <!-- Page content wrapper-->
+  <div id="page-content-wrapper">  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+      <button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/members/login}">로그인</a>
+            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/members/logout}">로그아웃</a></li>
+          <li class="nav-item"> <a class="nav-link" sec:authorize="isAnonymous()" href="/members/signup">회원가입</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#!">Action</a>
+              <a class="dropdown-item" href="#!">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#!">Something else here</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <!-- Page content-->
+    <div class="container-fluid">
+      <h1 class="mt-4">ArchiveB</h1>
+      <p>지금 책을 검색하고, 리뷰와 별점을 확인하세요!</p>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="책 이름을 입력하세요!" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
 </body>
+
+<div th:replace="fragments/footer :: footer" />
 </html>

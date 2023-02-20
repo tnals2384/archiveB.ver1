@@ -1,6 +1,7 @@
 package jpabook.archiveB.domain;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,16 +24,42 @@ public class Book {
     private String isbn;
 
     private String coverImg; //책 표지
+
+
     private String plot;
     private Date publicationDate;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     private double starAvg;  //평균별점 ..어카죵?
 
     @OneToMany(mappedBy = "book")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy ="book")
-    private List<BookCategory> categories = new ArrayList<>();
+    @Builder
+    public Book(String title, String author, String isbn, String coverImg,
+                String plot, Date publicationDate, Category category) {
+        this.title=title;
+        this.author =author;
+        this.isbn=isbn;
+        this.coverImg = coverImg;
+        this.plot=plot;
+        this.publicationDate=publicationDate;
+        this.category= category;
+    }
+
+
+    public void updateBook(String title, String author, String isbn,String coverImg,
+                      String plot, Date publicationDate, Category category) {
+        this.title=title;
+        this.author =author;
+        this.isbn=isbn;
+        this.coverImg = coverImg;
+        this.plot=plot;
+        this.publicationDate=publicationDate;
+        this.category=category;
+    }
 
 
 }

@@ -52,7 +52,7 @@ public class MemberController {
         //회원가입 수행
         //이미 존재하는 email이면 이미 존재하는 회원 에러
         try {
-            Long memberId = memberService.join(memberCreateForm.getName(), memberCreateForm.getEmail(), memberCreateForm.getPassword());
+            memberService.join(memberCreateForm.getName(), memberCreateForm.getEmail(), memberCreateForm.getPassword());
         } catch (DataIntegrityViolationException e) {
             bindingResult.addError((new FieldError("memberCreateForm", "email","이미 존재하는 회원입니다.")));
             return "members/createMemberForm";

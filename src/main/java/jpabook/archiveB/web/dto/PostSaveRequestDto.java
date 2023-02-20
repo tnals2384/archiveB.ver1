@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PostSaveRequestDto {
 
-
-
     private String title;
     private String content;
 

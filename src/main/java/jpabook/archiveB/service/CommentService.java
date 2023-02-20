@@ -24,7 +24,8 @@ public class CommentService {
     @Transactional
     public Long writeComment(Long userId, Long bookId, int star, String text) {
         Member member = memberRepository.findOne(userId);
-        Book book = bookRepository.findOne(bookId);
+        Book book = bookRepository.findOne(bookId).orElseThrow(()
+                -> new IllegalArgumentException("해당 책이 없습니다. id"+userId));
 
         Comment comment = Comment.builder().member(member)
                 .book(book)
