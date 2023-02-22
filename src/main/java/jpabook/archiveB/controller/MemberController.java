@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -18,6 +17,10 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
 
+
+    /*
+    ** 회원 가입
+     */
     @GetMapping("/members/signup")
     public String signup(Model model) {
         model.addAttribute("memberCreateForm", new MemberCreateForm());
@@ -48,7 +51,6 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
-
         //회원가입 수행
         //이미 존재하는 email이면 이미 존재하는 회원 에러
         try {
@@ -57,11 +59,13 @@ public class MemberController {
             bindingResult.addError((new FieldError("memberCreateForm", "email","이미 존재하는 회원입니다.")));
             return "members/createMemberForm";
         }
-
-
         return "redirect:/";
     }
 
+
+    /*
+    ** 로그인(스프링 시큐리티)
+     */
     @GetMapping("/members/login")
     public String login() {
         return "members/loginForm";

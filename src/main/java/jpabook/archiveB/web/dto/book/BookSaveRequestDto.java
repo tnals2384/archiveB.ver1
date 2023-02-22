@@ -1,4 +1,4 @@
-package jpabook.archiveB.web.dto;
+package jpabook.archiveB.web.dto.book;
 
 
 import jpabook.archiveB.domain.Book;
@@ -17,7 +17,6 @@ public class BookSaveRequestDto {
     private String title;
     private String author;
     private String isbn;
-
     private String coverImg;
     private String plot;
 

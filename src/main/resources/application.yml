@@ -6,14 +6,20 @@ spring:
     store-type: jdbc
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/archiveB?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1111111111
+  #  datasource:
+  #    url: jdbc:h2:tcp://localhost/~/test
+  #    username: sa
+  #    password:
+  #    driver-class-name: org.h2.Driver
 
   jpa:
+    database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -23,4 +29,6 @@ spring:
   suffix: .html
 
 logging.level:
+  org.springframework: debug
+  org.springframework.web: debug
   org.hibernate.SQL: debug

@@ -2,7 +2,7 @@ package jpabook.archiveB.service;
 
 import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.repository.BookRepository;
-import jpabook.archiveB.web.dto.BookSaveRequestDto;
+import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 
 @SpringBootTest
@@ -28,6 +28,7 @@ class BookServiceTest {
     @Autowired BookService bookService;
     @Autowired
     BookRepository bookRepository;
+
 
 
     @Test
