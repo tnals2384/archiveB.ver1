@@ -4,6 +4,7 @@ package jpabook.archiveB.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class Book {
     private String isbn;
     private String coverImg; //책 표지
     private String plot;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publicationDate;
 
     @Enumerated(EnumType.STRING)

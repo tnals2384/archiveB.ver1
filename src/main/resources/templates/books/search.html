@@ -1,0 +1,27 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="container my-3" >
+  <h1 class="mt-4">ArchiveB</h1>
+  <p>지금 책을 검색하고, 리뷰와 별점을 확인하세요!</p>
+
+  <form class="d-flex" action="/books/search" th:object="${bookSearch}"  >
+      <input class="form-control me-2" type="text" th:field="*{title}" placeholder="책 이름을 입력하세요!" >
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  <table>
+    <thead>
+    <tr>
+      <th>제목</th>
+      <th>작가</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${searchBooks}">
+      <td><span th:text="${book.title}"> </span></td>
+      <td><span th:text="${book.author}"> </span></td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+</html>

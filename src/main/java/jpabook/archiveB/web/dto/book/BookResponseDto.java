@@ -5,12 +5,14 @@ import jpabook.archiveB.domain.Category;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 //book list를 반환하는 dto
 @Getter
-public class BookListResponseDto {
+public class BookResponseDto {
     private Long id;
     private String title;
     private String author;
@@ -19,7 +21,8 @@ public class BookListResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publicationDate;
 
-    public BookListResponseDto(Book entity) {
+
+    public BookResponseDto(Book entity) {
         this.id= entity.getId();
         this.title=entity.getTitle();
         this.author=entity.getAuthor();
