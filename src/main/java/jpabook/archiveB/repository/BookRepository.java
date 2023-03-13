@@ -7,6 +7,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.QBook;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -36,10 +39,17 @@ public class BookRepository {
                 .getResultList();
     }
 
+    //페이징
+    public List<Book> findByPage(int offset, int limit) {
+        return em.createQuery("select b from Book b order by b.publicationDate desc")
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
     public void deleteBook(Book book) {
         em.remove(book);
     }
-
 
     public final JPAQueryFactory queryFactory;
 

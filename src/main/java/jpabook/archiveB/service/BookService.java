@@ -1,14 +1,13 @@
 package jpabook.archiveB.service;
 
 import jpabook.archiveB.domain.Book;
-import jpabook.archiveB.domain.Post;
 import jpabook.archiveB.repository.BookRepository;
 import jpabook.archiveB.repository.BookSearch;
 import jpabook.archiveB.repository.CommentRepository;
-import jpabook.archiveB.web.dto.PostResponseDto;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,9 @@ public class BookService {
         return new BookResponseDto(entity);
     }
 
+
     //책 정보 저장
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Long saveBook(BookSaveRequestDto bookDto) {
         Book book = bookDto.toEntity();
@@ -40,6 +41,7 @@ public class BookService {
     }
 
     //책 정보 update
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public Long updateBook(Long id, BookSaveRequestDto dto) {
         Book book =bookRepository.findOne(id)
@@ -54,6 +56,7 @@ public class BookService {
 
 
     //책 정보 삭제
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void deleteBook(Long id) {
         Book book =bookRepository.findOne(id)
@@ -75,8 +78,5 @@ public class BookService {
         return bookRepository.Search(bookSearch).stream().map(BookResponseDto::new).collect(Collectors.toList());
 
     }
-
-
-
 
 }

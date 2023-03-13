@@ -1,5 +1,6 @@
 package jpabook.archiveB.repository;
 
+import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Comment;
 import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.domain.Post;
@@ -28,9 +29,17 @@ public class PostRepository {
     public List<Post> findAll(Long memberId) {
         return em.createQuery("select p from Post p where p.member.id= :memberId", Post.class)
                 .setParameter("memberId",memberId).getResultList();
-
-
     }
+
+    
+    //페이징
+    public List<Post> findByPage(int offset, int limit) {
+        return em.createQuery("select p from Post p order by p.postDate desc")
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
     public void deletePost (Post post) {
         em.remove(post);
     }

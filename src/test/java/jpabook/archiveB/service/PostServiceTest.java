@@ -1,5 +1,6 @@
 package jpabook.archiveB.service;
 
+import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.domain.Post;
 
 import jpabook.archiveB.repository.PostRepository;
@@ -30,10 +31,12 @@ class PostServiceTest {
     @Autowired
     PostRepository postRepository;
 
-/*    @Test
+    @Test
     public void 게시글등록() throws Exception{
         //given
-        User user =createUser();
+        Member member =  Member.builder()
+                .name("hi").build();
+        em.persist(member);
         String title= "title";
         String content="content";
         PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
@@ -41,16 +44,15 @@ class PostServiceTest {
                 .content(content)
                 .build();
 
-        UserRequestDto userRequestDto= UserRequestDto.builder().user(user).build();
-        Long postId= postService.save(requestDto,userRequestDto);
+        Long postId = postService.save(requestDto, member.getId());
         //then
         Post getPost = postRepository.findOne(postId).get();
         assertEquals("title",getPost.getTitle());
         assertEquals("content", getPost.getContent());
-        assertEquals("hi",getPost.getUser().getName());
+        assertEquals("hi",getPost.getMember().getName());
     }
 
-    @Test
+  /*  @Test
     public void 게시글수정() throws Exception{
         //given
         User user =createUser();

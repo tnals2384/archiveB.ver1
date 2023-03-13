@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -33,6 +34,7 @@ public class Post {
     private Date startDate;
     private Date endDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime postDate;
 
     //==연관관계 메서드==//

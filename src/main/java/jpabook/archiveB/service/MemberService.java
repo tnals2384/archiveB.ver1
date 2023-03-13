@@ -53,10 +53,10 @@ private final PasswordEncoder passwordEncoder;
     }
 
 
-    public Long getUser(String email) {
+    public Member getUser(String email) {
         Optional<Member> member = this.memberRepository.findByEmail(email);
         if (member.isPresent()) {
-            return member.get().getId();
+            return member.get();
         } else {
             throw new DataNotFoundException("member not found");
         }

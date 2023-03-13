@@ -1,8 +1,10 @@
 package jpabook.archiveB.service;
 
 import jpabook.archiveB.domain.Book;
+import jpabook.archiveB.domain.Category;
 import jpabook.archiveB.repository.BookRepository;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
+import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,5 +54,22 @@ class BookServiceTest {
         Assertions.assertEquals(book.getId(),id);
         Assertions.assertEquals("므레모사",book.getTitle());
         Assertions.assertEquals("김초엽",book.getAuthor());
+    }
+
+    @Test
+    void BookPaging() throws Exception {
+        bookRepository.save(new Book("책1","tnals","","","",new Date() , Category.NOVEL));
+        bookRepository.save(new Book("책2","tnals","","","",new Date() , Category.NOVEL));
+        bookRepository.save(new Book("책3","tnals","","","",new Date() , Category.NOVEL));
+        bookRepository.save(new Book("책4","tnals","","","",new Date() , Category.NOVEL));
+        bookRepository.save(new Book("책5","tnals","","","",new Date() , Category.NOVEL));
+
+        int offset=0;
+        int limit=3;
+
+        List<Book> books= bookRepository.findByPage(offset,limit);
+
+        Assertions.assertEquals(books.size(),3);
+
     }
 }
