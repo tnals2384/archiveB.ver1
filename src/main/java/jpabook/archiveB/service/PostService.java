@@ -9,9 +9,13 @@ import jpabook.archiveB.web.dto.MemberRequestDto;
 import jpabook.archiveB.web.dto.PostResponseDto;
 import jpabook.archiveB.web.dto.PostSaveRequestDto;
 import jpabook.archiveB.web.dto.PostUpdateRequestDto;
+import jpabook.archiveB.web.dto.book.BookResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,6 +48,13 @@ public class PostService {
                 .orElseThrow(()-> new IllegalArgumentException("해당 게시물이 없습니다. id="+id));
 
         return new PostResponseDto(entity);
+    }
+
+
+    //post list를 불러온다
+    public List<PostResponseDto> findPosts(Long memberId) {
+        //Post stream을 map을 통해 PostResponseDto로 변환하여 list로 반환
+        return postRepository.findAll(memberId).stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
 
 

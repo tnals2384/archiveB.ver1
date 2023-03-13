@@ -47,7 +47,8 @@ public class BookRepository {
 
         return queryFactory.select(book)
                 .from(book)
-                .where(titleCt(bookSearch.getTitle()))
+                .where(titleCt(bookSearch.getSearchWord()).or(
+                        authorCt(bookSearch.getSearchWord())))
                 .orderBy(book.publicationDate.desc())
                 .fetch();
     }
@@ -59,6 +60,7 @@ public class BookRepository {
             return new BooleanBuilder();
         }
     }
+
 
     private BooleanBuilder titleCt(String titleCond) {
         return nullSafeBuilder(()-> book.title.contains(titleCond));

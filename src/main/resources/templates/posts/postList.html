@@ -1,0 +1,19 @@
+
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+  <table>
+    <thead>
+    <tr>
+      <th>제목</th>
+      <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="list : ${posts}">
+      <td><span th:text="${list.title}"> </span></td>
+      <td><span th:text="${list.postDate}"> </span></td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>

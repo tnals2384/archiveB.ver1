@@ -35,11 +35,12 @@ public class Member {
     private String image;
 
     @Builder
-    public Member(String name, String email, String password,String image) {
+    public Member(String name, String email, String password,String image,Role role) {
         this.name=name;
         this.email= email;
         this.password=password;
         this.image =image;
+        this.role=role;
     }
 
     public Member update(String name, String image) {
@@ -52,7 +53,6 @@ public class Member {
     public String getRoleKey() {
         return this.role.getKey();
     }
-
 
 
 

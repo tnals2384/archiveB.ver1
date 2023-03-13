@@ -1,7 +1,9 @@
 package jpabook.archiveB.service;
 
 
+import jpabook.archiveB.DataNotFoundException;
 import jpabook.archiveB.domain.Member;
+import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,6 +27,7 @@ private final PasswordEncoder passwordEncoder;
                 .name(name)
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .role(Role.USER)
                 .build();
 
         memberRepository.save(member);
@@ -48,4 +52,13 @@ private final PasswordEncoder passwordEncoder;
         return memberRepository.findOne(memberId);
     }
 
+
+    public Long getUser(String email) {
+        Optional<Member> member = this.memberRepository.findByEmail(email);
+        if (member.isPresent()) {
+            return member.get().getId();
+        } else {
+            throw new DataNotFoundException("member not found");
+        }
+    }
 }

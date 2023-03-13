@@ -1,5 +1,6 @@
 package jpabook.archiveB.controller;
 
+import jpabook.archiveB.domain.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,5 +23,6 @@ public class MemberCreateForm {
     private String passwordCheck;
 
     private String name;
+
 
 }

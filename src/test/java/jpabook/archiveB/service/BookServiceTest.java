@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,11 +35,13 @@ class BookServiceTest {
 
 
     @Test
-    void saveBook() {
+    void saveBook() throws ParseException {
 
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd");
+        Date date = simpleDateFormat.parse("2021-10-09");
         //given
         BookSaveRequestDto dto = BookSaveRequestDto.builder()
-                .title("title1").author("author1")
+                .title("므레모사").author("김초엽").publicationDate(date)
                 .build();
 
         Long id=bookService.saveBook(dto);
@@ -45,7 +50,7 @@ class BookServiceTest {
                 -> new IllegalArgumentException("해당 책이 없습니다. id"+id));
 
         Assertions.assertEquals(book.getId(),id);
-        Assertions.assertEquals("title1",book.getTitle());
-        Assertions.assertEquals("author1",book.getAuthor());
+        Assertions.assertEquals("므레모사",book.getTitle());
+        Assertions.assertEquals("김초엽",book.getAuthor());
     }
 }
