@@ -1,4 +1,4 @@
-package jpabook.archiveB.controller;
+package jpabook.archiveB.web.dto;
 
 import jpabook.archiveB.domain.Role;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package jpabook.archiveB.controller;
 
-import jpabook.archiveB.repository.BookSearch;
+import jpabook.archiveB.web.dto.book.BookSearch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;

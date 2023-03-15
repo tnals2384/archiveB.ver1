@@ -1,4 +1,4 @@
-package jpabook.archiveB.repository;
+package jpabook.archiveB.web.dto.book;
 
 import lombok.Getter;
 import lombok.Setter;

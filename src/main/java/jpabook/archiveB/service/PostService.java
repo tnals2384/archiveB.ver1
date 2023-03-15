@@ -1,5 +1,7 @@
 package jpabook.archiveB.service;
 
+import jpabook.archiveB.base.BaseException;
+import jpabook.archiveB.base.BaseResponseStatus;
 import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.domain.Post;
 import jpabook.archiveB.repository.MemberRepository;
@@ -14,7 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.stream.Collectors;
 
 
@@ -59,11 +63,13 @@ public class PostService {
 
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, Principal principal) throws BaseException {
         Post post = postRepository.findOne(id).orElseThrow(
                 ()-> new IllegalArgumentException("해당 게시물이 없습니다. id=" +id)
         );
-
+        if(principal.getName()!=post.getMember().getEmail()) {
+            throw new BaseException(BaseResponseStatus.DELETE_FAIL_POST);
+        }
         postRepository.deletePost(post);
     }
 

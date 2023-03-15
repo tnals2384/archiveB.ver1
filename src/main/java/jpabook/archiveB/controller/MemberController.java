@@ -1,6 +1,7 @@
 package jpabook.archiveB.controller;
 
 import jpabook.archiveB.service.MemberService;
+import jpabook.archiveB.web.dto.MemberCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -70,5 +71,4 @@ public class MemberController {
     public String login() {
         return "members/loginForm";
     }
-
 }

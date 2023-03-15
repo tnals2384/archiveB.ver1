@@ -1,12 +1,11 @@
 package jpabook.archiveB.service;
 
 
-import jpabook.archiveB.DataNotFoundException;
+import jpabook.archiveB.exception.DataNotFoundException;
 import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +33,6 @@ private final PasswordEncoder passwordEncoder;
 
         return member.getId();
     }
-
-  /*  private void validateDuplicateUser(Member member) {
-        List<Member> findUsers = memberRepository.findOne(member.getId());
-        if(!findUsers.isEmpty()) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
-        }
-    }*/
 
     //전체 회원 조회
     public List<Member> findUsers() {

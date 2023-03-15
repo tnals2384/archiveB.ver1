@@ -1,0 +1,21 @@
+
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>게시글 수정하기</h4>
+        </div>
+    </div>
+    <form role="form" th:object="${post}" method="post">
+        <div class="mb-3 form-group">
+            <label th:for="title" class="form-label">제목</label>
+            <input type="text" th:field="*{title}" id="title" class="form-control">
+        </div>
+        <div class="mb-3 form-group">
+            <label th:for="content" class="form-label">Content</label>
+            <textarea type="text" th:field="*{content}" id="content" rows="20" class="form-control">
+      </textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>

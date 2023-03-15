@@ -1,8 +1,10 @@
 package jpabook.archiveB.service;
 
+import jpabook.archiveB.base.BaseException;
+import jpabook.archiveB.base.BaseResponseStatus;
 import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.repository.BookRepository;
-import jpabook.archiveB.repository.BookSearch;
+import jpabook.archiveB.web.dto.book.BookSearch;
 import jpabook.archiveB.repository.CommentRepository;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
@@ -23,11 +25,23 @@ public class BookService {
     private final CommentRepository commentRepository;
 
     //id로 책 찾기
-    public BookResponseDto findById(Long id) {
+    public BookResponseDto findById(Long id) throws BaseException{
         Book entity = bookRepository.findOne(id)
-                .orElseThrow(()-> new IllegalArgumentException("해당 책이 없습니다. id="+id));
+                .orElseThrow(()-> new BaseException(BaseResponseStatus.POSTS_EMPTY_POST_ID));
 
         return new BookResponseDto(entity);
+    }
+
+    //book list를 불러오기 위한 findBooks
+    public List<BookResponseDto> findBooks() throws BaseException {
+        //Book stream을 map을 통해 BookListResponseDto로 변환하여 list로 반환
+        try {
+            List<BookResponseDto> books = bookRepository.findAll().stream().map(BookResponseDto::new).collect(Collectors.toList());
+            return books;
+        }
+        catch (Exception exception) {
+            throw new BaseException(BaseResponseStatus.DATABASE_ERROR);
+        }
     }
 
 
@@ -67,12 +81,6 @@ public class BookService {
 
 
 
-    //book list를 불러오기 위한 findBooks
-    public List<BookResponseDto> findBooks() {
-        //Book stream을 map을 통해 BookListResponseDto로 변환하여 list로 반환
-        return bookRepository.findAll().stream().map(BookResponseDto::new).collect(Collectors.toList());
-
-    }
 
     public List<BookResponseDto> searchBook(BookSearch bookSearch) {
         return bookRepository.Search(bookSearch).stream().map(BookResponseDto::new).collect(Collectors.toList());

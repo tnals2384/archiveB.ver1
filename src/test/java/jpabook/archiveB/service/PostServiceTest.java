@@ -52,10 +52,12 @@ class PostServiceTest {
         assertEquals("hi",getPost.getMember().getName());
     }
 
-  /*  @Test
+    @Test
     public void 게시글수정() throws Exception{
         //given
-        User user =createUser();
+        Member member =  Member.builder()
+                .name("hi").build();
+        em.persist(member);
         String title= "title";
         String content="content";
         PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
@@ -63,8 +65,7 @@ class PostServiceTest {
                 .content(content)
                 .build();
 
-        UserRequestDto userRequestDto= UserRequestDto.builder().user(user).build();
-        Long postId= postService.save(requestDto,userRequestDto);
+        Long postId = postService.save(requestDto, member.getId());
 
         PostUpdateRequestDto updateDto = PostUpdateRequestDto.builder()
                         .title("수정제목").content("수정내용").build();
@@ -75,7 +76,7 @@ class PostServiceTest {
         assertEquals("수정제목",getUpdatePost.getTitle());
         assertEquals("수정내용", getUpdatePost.getContent());
     }
-
+/*
     @Test
     public void 게시글삭제() throws  Exception {
         //given
