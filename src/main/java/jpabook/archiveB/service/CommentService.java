@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class CommentService {
 
 
     public List<CommentResponseDto> findAllbyBookId(Long bookId) {
-        //Comment stream을 map을 통해 CommentResponseDto로 변환하여 list로 반환
+        //Comment stream을 map을 통해 CommentResponseDto로 변환하여 list로
         return commentRepository.findBookComments(bookId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 

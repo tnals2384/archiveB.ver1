@@ -5,7 +5,9 @@ import jpabook.archiveB.base.BaseException;
 import jpabook.archiveB.base.BaseResponse;
 import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Comment;
+import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.service.CommentService;
+import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.web.dto.CommentResponseDto;
 import jpabook.archiveB.web.dto.book.BookSearch;
 import jpabook.archiveB.service.BookService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,7 +26,7 @@ import java.util.List;
 public class BookController {
     private final BookService bookService;
     private final CommentService commentService;
-
+    private final MemberService memberService;
 
 /*    //book list 불러오기
     @GetMapping("/books/list")
@@ -56,7 +59,7 @@ public class BookController {
 
 
     @GetMapping("/books/{bookId}")
-    public String BookDetail(@PathVariable("bookId") Long bookId, Model model) throws BaseException {
+    public String BookDetail(@PathVariable("bookId") Long bookId, Model model,Principal principal) throws BaseException {
         // 게시글 조회
         BookResponseDto bookDto = bookService.findById(bookId);
         model.addAttribute("book",bookDto);
@@ -64,6 +67,10 @@ public class BookController {
         // 댓글 조회
         List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId);
         model.addAttribute("comments", comments);
+
+        //현재 로그인한 사용자 정보
+        Member currentMember = memberService.getUser(principal.getName());
+        model.addAttribute("currentMember",currentMember);
 
         return "books/detail";
     }

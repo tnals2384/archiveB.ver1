@@ -18,4 +18,17 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- 댓글 목록을 표시하는 템플릿 -->
+    <ul>
+        <li th:each="list : ${comments}">
+            <span th:text="${list.member.getName()}"></span>
+            <span th:text="${list.comment}"></span>
+            <!-- 현재 사용자가 작성자인 경우에만 수정/삭제 버튼 표시 -->
+            <div th:if="${currentMember==list.member}">
+                <a href="#" th:href="@{/edit-comment/{id}(id=${list.id})}">Edit</a>
+                <a href="#" th:href="@{/delete-comment/{id}(id=${list.id})}">Delete</a>
+            </div>
+        </li>
+    </ul>
 </div>

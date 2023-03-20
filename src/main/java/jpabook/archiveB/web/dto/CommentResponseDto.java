@@ -6,6 +6,7 @@ import jpabook.archiveB.domain.Member;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,6 +16,7 @@ public class CommentResponseDto {
     private Book book;
     private String comment;
     private int star;
+    private boolean MyComment;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime date; //코멘트 작성 날짜
 
