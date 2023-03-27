@@ -63,14 +63,14 @@ public class PostService {
 
 
     @Transactional
-    public void delete(Long id, Principal principal) throws BaseException {
+    public Long delete(Long id) throws BaseException {
         Post post = postRepository.findOne(id).orElseThrow(
                 ()-> new IllegalArgumentException("해당 게시물이 없습니다. id=" +id)
         );
-        if(principal.getName()!=post.getMember().getEmail()) {
-            throw new BaseException(BaseResponseStatus.DELETE_FAIL_POST);
-        }
+
         postRepository.deletePost(post);
+
+        return id;
     }
 
 }

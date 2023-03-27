@@ -72,7 +72,11 @@ public class CommentService {
 
     //코멘트 삭제
     @Transactional
-    public void deleteComment(Comment comment) {
+    public void deleteComment(Long commentId) {
+
+        Comment comment= commentRepository.findOne(commentId).orElseThrow(
+                ()->new IllegalArgumentException("해당 댓글이 없습니다. id"+commentId)
+        );
         commentRepository.deleteComment(comment);
     }
 

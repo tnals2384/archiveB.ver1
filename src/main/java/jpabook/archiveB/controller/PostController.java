@@ -2,6 +2,7 @@ package jpabook.archiveB.controller;
 
 
 import jpabook.archiveB.base.BaseException;
+import jpabook.archiveB.domain.Post;
 import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.service.PostService;
 import jpabook.archiveB.web.dto.PostResponseDto;
@@ -85,8 +86,12 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/posts/{postId}/edit")
-    public String postsUpdate(@PathVariable Long postId, @Valid PostUpdateRequestDto updateDto,
-                              Principal principal) {
+    public String postsUpdate(@PathVariable Long postId, @Valid PostUpdateRequestDto updateDto, Principal principal
+                              ) {
+        PostResponseDto postDto = postService.findById(postId);
+        if(postDto.getMember()!=memberService.getUser(principal.getName())) {
+            return "redirect:/posts/list";
+        }
         Long id = postService.update(postId, updateDto);
         return "redirect:/posts/" + id;
     }
@@ -95,11 +100,15 @@ public class PostController {
     @GetMapping("/posts/{postId}/delete")
     public String postsDelete(@PathVariable Long postId,Principal principal) {
         try {
-            postService.delete(postId, principal);
+            PostResponseDto postDto = postService.findById(postId);
+            if(postDto.getMember()!=memberService.getUser(principal.getName())) {
+                return "redirect:/posts/list";
+            }
+            postService.delete(postId);
             return "redirect:/posts/list";
         }
         catch (BaseException e) {
-            //error mesage
+            //error message
             return "redirect:/posts/list";
         }
     }
