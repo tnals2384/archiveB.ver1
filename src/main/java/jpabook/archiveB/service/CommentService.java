@@ -34,7 +34,7 @@ public class CommentService {
 
     public List<CommentResponseDto> findAllbyMemberId(Long memberId) {
         //Comment stream을 map을 통해 CommentResponseDto로 변환하여 list로 반환
-        return commentRepository.findBookComments(memberId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        return commentRepository.findMyComment(memberId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 
     public CommentResponseDto findById(Long id) {

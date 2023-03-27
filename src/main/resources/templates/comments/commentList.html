@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <!-- 댓글 목록을 표시하는 템플릿 -->
+    <ul>
+        <li th:each="list : ${comments}">
+            <span th:text="${list.member.getName()}"></span>
+            <span th:text="${list.date}"></span>
+            <span th:text="${list.comment}"></span>
+        </li>
+    </ul>
+</div>
+</html>

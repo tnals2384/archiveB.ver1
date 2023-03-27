@@ -29,8 +29,12 @@ class CommentServiceTest {
     @Autowired
     CommentService commentService;
 
+    public void 코멘트조회() throws Exception {
 
- /*   @Test
+    }
+
+/*
+    @Test
     public void 코멘트작성() throws Exception {
         //given
         User user =createUser();
@@ -76,21 +80,7 @@ class CommentServiceTest {
         assertEquals(commentRepository.findOne(comment.getId()).getStar(),3);
 
     }
+*/
 
 
-    private Book createBook(String title, String author) {
-        Book book = new Book();
-        book.setTitle(title);
-        book.setAuthor(author);
-        em.persist(book);
-        return book;
-    }
-
-    private User createUser() {
-        User user = new User();
-        user.setName("hi");
-
-        em.persist(user);
-        return user;
-    }*/
 }
