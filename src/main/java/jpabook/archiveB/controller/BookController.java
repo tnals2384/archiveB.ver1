@@ -14,6 +14,7 @@ import jpabook.archiveB.web.dto.book.BookSearch;
 import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,12 @@ public class BookController {
         return "books/bookList";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/books/list")
+    public String AdminBookList(Model model) throws BaseException {
+        model.addAttribute("books",bookService.findBooks());
+        return "books/bookList";
+    }
 
     @GetMapping("/books/{bookId}")
     public String BookDetail(@PathVariable("bookId") Long bookId, Model model,Principal principal) throws BaseException {
@@ -70,8 +77,13 @@ public class BookController {
         model.addAttribute("comments", comments);
 
         //현재 로그인한 사용자 정보
+        try {
         Member currentMember = memberService.getUser(principal.getName());
         model.addAttribute("currentMember",currentMember);
+
+        } catch (Exception e) {
+            Member currentMember = null;
+        }
 
         return "books/detail";
     }

@@ -30,7 +30,7 @@ public class UserSecurityService implements UserDetailsService {
         }
         Member member = _member.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(member.getRoleKey()));
+        //authorities.add(new SimpleGrantedAuthority(member.getRoleKey()));
         if ("admin@archiveb.com".equals(email)) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getKey()));
         }

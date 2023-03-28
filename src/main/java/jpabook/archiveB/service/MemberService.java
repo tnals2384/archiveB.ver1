@@ -21,12 +21,12 @@ public class MemberService {
 private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Long join(String name, String email, String password) {
+    public Long join(String name, String email, String password,Role role) {
         Member member = Member.builder()
                 .name(name)
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .role(Role.USER)
+                .role(role)
                 .build();
 
         memberRepository.save(member);

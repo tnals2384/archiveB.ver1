@@ -1,5 +1,6 @@
 package jpabook.archiveB.controller;
 
+import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.web.dto.MemberCreateForm;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +53,13 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
+        Role role= Role.USER;
+        if(memberCreateForm.getEmail().equals("admin@archiveb.com"))
+            role=Role.ADMIN;
         //회원가입 수행
         //이미 존재하는 email이면 이미 존재하는 회원 에러
         try {
-            memberService.join(memberCreateForm.getName(), memberCreateForm.getEmail(), memberCreateForm.getPassword());
+            memberService.join(memberCreateForm.getName(), memberCreateForm.getEmail(), memberCreateForm.getPassword(),role);
         } catch (DataIntegrityViolationException e) {
             bindingResult.addError((new FieldError("memberCreateForm", "email","이미 존재하는 회원입니다.")));
             return "members/createMemberForm";

@@ -1,6 +1,7 @@
 package jpabook.archiveB.config;
 
 
+import jpabook.archiveB.domain.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,8 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests().requestMatchers(
                         new AntPathRequestMatcher("/**")).permitAll()
+                .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                .antMatchers("/mypage").hasRole("USER")
                 .and()
                 .headers()
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
