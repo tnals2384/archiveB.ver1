@@ -5,8 +5,6 @@ import jpabook.archiveB.domain.Category;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -30,4 +28,5 @@ public class BookResponseDto {
         this.category=entity.getCategory();
         this.publicationDate=entity.getPublicationDate();
     }
+
 }

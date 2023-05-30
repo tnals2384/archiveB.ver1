@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="adminSidebar" th:fragment="adminSidebar">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+            <a class=text-decoration-none href="/home">Archive B</a>
+        </div>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/admin/books/list">Book List</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/admin/books/add">Book 추가</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/admin/members/list">Member List</a>
+        </div>
+    </div>
+</div>

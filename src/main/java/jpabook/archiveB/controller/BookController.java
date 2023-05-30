@@ -2,23 +2,26 @@ package jpabook.archiveB.controller;
 
 
 import jpabook.archiveB.base.BaseException;
-import jpabook.archiveB.base.BaseResponse;
-import jpabook.archiveB.domain.Book;
-import jpabook.archiveB.domain.Comment;
+import jpabook.archiveB.base.FileStore;
 import jpabook.archiveB.domain.Member;
+import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
-import jpabook.archiveB.web.dto.CommentRequestDto;
 import jpabook.archiveB.web.dto.CommentResponseDto;
-import jpabook.archiveB.web.dto.book.BookSearch;
-import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
+import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
+import jpabook.archiveB.web.dto.book.BookSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,6 +33,7 @@ public class BookController {
     private final CommentService commentService;
     private final MemberService memberService;
 
+    private final FileStore fileStore;
 /*    //book list 불러오기
     @GetMapping("/books/list")
     public BaseResponse<List<BookResponseDto>> BookList()  {
@@ -63,11 +67,25 @@ public class BookController {
     @GetMapping("/admin/books/list")
     public String AdminBookList(Model model) throws BaseException {
         model.addAttribute("books",bookService.findBooks());
-        return "books/bookList";
+        return "books/adminBookList";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("admin/books/add")
+    public String BookSave(Model model)  {
+        model.addAttribute("bookSaveRequestDto",new BookSaveRequestDto());
+        return "books/save";
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("admin/books/add")
+    public String BookSave(@Valid BookSaveRequestDto requestDto) throws IOException {
+        Long bookId = bookService.saveBook(requestDto);
+        return "redirect:/books/"+bookId;
     }
 
     @GetMapping("/books/{bookId}")
-    public String BookDetail(@PathVariable("bookId") Long bookId, Model model,Principal principal) throws BaseException {
+    public String BookDetail(@PathVariable("bookId") Long bookId, Model model,Principal principal)
+            throws BaseException,IOException {
         // book 조회
         BookResponseDto bookDto = bookService.findById(bookId);
         model.addAttribute("book",bookDto);

@@ -19,20 +19,15 @@ public class PostSaveRequestDto {
 
     private String title;
     private String content;
-/*
-    private Date startDate;
-    private Date endDate;
-*/
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime postDate;
 
+    private Date startDate;
+
+    private Date endDate;
 
     @Builder
-    public PostSaveRequestDto( String title, String content) {
-        //this.user=user;
+    public PostSaveRequestDto(String title, String content) {
         this.title=title;
         this.content=content;
-        this.postDate=LocalDateTime.now();
     }
 
 
@@ -40,7 +35,6 @@ public class PostSaveRequestDto {
         return Post.builder().member(member)
                 .title(title)
                 .content(content)
-                .postDate(LocalDateTime.now())
                 .build();
     }
 }

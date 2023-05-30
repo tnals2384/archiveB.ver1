@@ -1,5 +1,6 @@
 package jpabook.archiveB.domain;
 
+import jpabook.archiveB.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Member {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name="member_id")
@@ -27,7 +28,7 @@ public class Member {
     private List<Post> posts= new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Comment> comments =new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -17,7 +17,7 @@
     </thead>
     <tbody>
     <tr th:each="book : ${searchBooks}">
-      <td><span th:text="${book.title}"> </span></td>
+      <td><a th:href="@{'/books/'+${book.id}}"><span th:text="${book.title}"> </span></a> </td>
       <td><span th:text="${book.author}"> </span></td>
 
     </tr>

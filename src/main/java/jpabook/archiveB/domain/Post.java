@@ -1,5 +1,6 @@
 package jpabook.archiveB.domain;
 
+import jpabook.archiveB.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class Post {
+public class Post extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "post_id")
@@ -29,13 +30,9 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-
-
     private Date startDate;
     private Date endDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime postDate;
 
     //==연관관계 메서드==//
     public void setMember(Member member) {
@@ -44,11 +41,10 @@ public class Post {
     }
 
     @Builder
-    public Post(Member member, String title, String content,LocalDateTime postDate) {
+    public Post(Member member, String title, String content) {
         this.member=member;
         this.title=title;
         this.content=content;
-        this.postDate=postDate;
     }
 
     public void update(String title,String content) {

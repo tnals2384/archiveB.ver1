@@ -1,0 +1,19 @@
+
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{adminLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+  <table>
+    <thead>
+    <tr>
+      <th>제목</th>
+      <th>작가</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="list : ${books}" >
+
+      <td><a th:href="@{'/books/'+${list.id}}"><span th:text="${list.title}"> </span> </a></td>
+      <td><span th:text="${list.author}"> </span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

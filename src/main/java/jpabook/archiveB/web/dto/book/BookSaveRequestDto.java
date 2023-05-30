@@ -5,19 +5,23 @@ import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Category;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
 
+@Setter
+@NoArgsConstructor
 @Getter
 public class BookSaveRequestDto {
-    //private Long id;
     private String title;
     private String author;
     private String isbn;
-    private String coverImg;
+    private MultipartFile coverImg;
     private String plot;
 
     @Enumerated(EnumType.STRING)
@@ -27,7 +31,7 @@ public class BookSaveRequestDto {
     private Date publicationDate;
 
     @Builder
-    public BookSaveRequestDto(String title, String author, String isbn, String coverImg,
+    public BookSaveRequestDto(String title, String author, String isbn, MultipartFile coverImg,
                               String plot, Date publicationDate, Category category) {
         this.title=title;
         this.author=author;
@@ -39,12 +43,12 @@ public class BookSaveRequestDto {
     }
 
 
-    public Book toEntity() {
+    public Book toEntity(String filePath) {
         return Book.builder()
                 .title(title)
                 .author(author)
                 .isbn(isbn)
-                .coverImg(coverImg)
+                .coverImg(filePath)
                 .plot(plot)
                 .publicationDate(publicationDate)
                 .category(category)

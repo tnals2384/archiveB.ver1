@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +38,7 @@ class BookServiceTest {
 
 
     @Test
-    void saveBook() throws ParseException {
+    void saveBook() throws ParseException, IOException {
 
         SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd");
         Date date = simpleDateFormat.parse("2021-10-09");

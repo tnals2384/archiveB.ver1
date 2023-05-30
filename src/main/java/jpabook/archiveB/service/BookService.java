@@ -2,6 +2,7 @@ package jpabook.archiveB.service;
 
 import jpabook.archiveB.base.BaseException;
 import jpabook.archiveB.base.BaseResponseStatus;
+import jpabook.archiveB.base.FileStore;
 import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.repository.BookRepository;
 import jpabook.archiveB.web.dto.book.BookSearch;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +24,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final CommentRepository commentRepository;
-
+    private final FileStore fileStore;
     //id로 책 찾기
     public BookResponseDto findById(Long id) throws BaseException{
         Book entity = bookRepository.findOne(id)
@@ -48,8 +49,9 @@ public class BookService {
     //책 정보 저장
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public Long saveBook(BookSaveRequestDto bookDto) {
-        Book book = bookDto.toEntity();
+    public Long saveBook(BookSaveRequestDto bookDto) throws IOException {
+        String filePath = fileStore.saveFile(bookDto.getCoverImg());
+        Book book = bookDto.toEntity(filePath);
         bookRepository.save(book);
         return book.getId();
     }
@@ -57,12 +59,15 @@ public class BookService {
     //책 정보 update
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public Long updateBook(Long id, BookSaveRequestDto dto) {
-        Book book =bookRepository.findOne(id)
+    public Long updateBook(Long id, BookSaveRequestDto dto) throws IOException{
+        Book book = bookRepository.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("해당 책이 없습니다. id="+id));
 
+        fileStore.deleteFile(book.getCoverImg());
+        String filePath = fileStore.saveFile(dto.getCoverImg());
+
         book.updateBook(dto.getTitle(), dto.getAuthor(),
-                dto.getIsbn(), dto.getCoverImg(),
+                dto.getIsbn(), filePath,
                 dto.getPlot(), dto.getPublicationDate(),dto.getCategory());
 
         return id;

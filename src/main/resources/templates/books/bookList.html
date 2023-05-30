@@ -1,5 +1,5 @@
 
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="container my-3">
     <table>
         <thead>
@@ -9,10 +9,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="list : ${books}">
-            <td><span th:text="${list.title}"> </span></td>
-            <td><span th:text="${list.author}"> </span></td>
+        <tr th:each="list : ${books}" >
 
+            <td><a th:href="@{'/books/'+${list.id}}"><span th:text="${list.title}"> </span> </a></td>
+            <td><span th:text="${list.author}"> </span></td>
         </tr>
         </tbody>
     </table>

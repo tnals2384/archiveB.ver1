@@ -1,5 +1,6 @@
 package jpabook.archiveB.domain;
 
+import jpabook.archiveB.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "comment_id")

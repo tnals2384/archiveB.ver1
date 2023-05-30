@@ -1,20 +1,20 @@
 package jpabook.archiveB.domain;
 
 
+import jpabook.archiveB.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter @Setter
-public class Book {
+public class Book extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "book_id")
@@ -52,15 +52,15 @@ public class Book {
     }
 
 
-    public void updateBook(String title, String author, String isbn,String coverImg,
+    public void updateBook(String title, String author, String isbn, String coverImg,
                       String plot, Date publicationDate, Category category) {
         this.title=title;
         this.author =author;
         this.isbn=isbn;
         this.coverImg = coverImg;
-        this.plot=plot;
-        this.publicationDate=publicationDate;
-        this.category=category;
+        this.plot = plot;
+        this.publicationDate = publicationDate;
+        this.category = category;
     }
 
 

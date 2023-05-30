@@ -13,13 +13,11 @@ public class PostResponseDto {
     private String title;
     private String content;
     private Member member;
-    private LocalDateTime postDate;
 
     public PostResponseDto(Post entity) {
         this.id=entity.getId();
         this.title=entity.getTitle();
         this.content=entity.getContent();
         this.member=entity.getMember();
-        this.postDate=entity.getPostDate();
     }
 }

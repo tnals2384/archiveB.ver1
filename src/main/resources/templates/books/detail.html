@@ -13,6 +13,7 @@
         <tr >
             <td><span th:text="${book.title}"> </span></td>
             <td><span th:text="${book.author}"> </span></td>
+            <td><img th:src="@{/imagePath/}+${book.coverImg}"></td>
             <td><span th:text="${book.category}"> </span></td>
             <td><span th:text="${book.publicationDate}"> </span></td>
 

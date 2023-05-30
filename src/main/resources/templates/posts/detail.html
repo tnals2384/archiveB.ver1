@@ -11,7 +11,7 @@
     <tbody>
     <tr>
       <td><span th:text="${post.title}"> </span></td>
-      <td><span th:text="${post.postDate}"> </span></td>
+      <td><span th:text="${post.created_at}"> </span></td>
     </tr>
     <span th:text="${post.content}"> </span>
     <a th:href="@{'/posts/'+${postId}+'/edit'}" class="btn btn-primary">수정</a>
