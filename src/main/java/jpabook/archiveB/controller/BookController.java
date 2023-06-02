@@ -34,7 +34,7 @@ public class BookController {
     private final CommentService commentService;
     private final MemberService memberService;
 
-    private final FileStore fileStore;
+
 /*    //book list 불러오기
     @GetMapping("/books/list")
     public BaseResponse<List<BookResponseDto>> BookList()  {
