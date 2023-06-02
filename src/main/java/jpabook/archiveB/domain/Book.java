@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Book extends BaseEntity {
     private String coverImg; //책 표지
     private String plot;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -37,7 +38,7 @@ public class Book extends BaseEntity {
 
     @Builder
     public Book(String title, String author, String isbn, String coverImg,
-                String plot, Date publicationDate, Category category) {
+                String plot, LocalDate publicationDate, Category category) {
         this.title=title;
         this.author =author;
         this.isbn=isbn;
@@ -53,7 +54,7 @@ public class Book extends BaseEntity {
 
 
     public void updateBook(String title, String author, String isbn, String coverImg,
-                      String plot, Date publicationDate, Category category) {
+                      String plot, LocalDate publicationDate, Category category) {
         this.title=title;
         this.author =author;
         this.isbn=isbn;

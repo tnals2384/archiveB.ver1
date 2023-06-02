@@ -4,6 +4,7 @@ package jpabook.archiveB.controller;
 import jpabook.archiveB.base.BaseException;
 import jpabook.archiveB.base.FileStore;
 import jpabook.archiveB.domain.Member;
+import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
@@ -80,7 +81,7 @@ public class BookController {
     @PostMapping("admin/books/add")
     public String BookSave(@Valid BookSaveRequestDto requestDto) throws IOException {
         Long bookId = bookService.saveBook(requestDto);
-        return "redirect:/books/"+bookId;
+        return "redirect:admin/books/"+bookId;
     }
 
     @GetMapping("/books/{bookId}")
@@ -95,16 +96,21 @@ public class BookController {
         model.addAttribute("comments", comments);
 
         //현재 로그인한 사용자 정보
+        Member currentMember= new Member();
         try {
-        Member currentMember = memberService.getUser(principal.getName());
+         currentMember = memberService.getUser(principal.getName());
         model.addAttribute("currentMember",currentMember);
 
         } catch (Exception e) {
-            Member currentMember = null;
+             currentMember = null;
         }
-
-        return "books/detail";
+        if(currentMember.getRole().equals(Role.ADMIN) )
+                return "books/adminDetail";
+        else
+            return "books/detail";
     }
+
+
     @GetMapping("/books/search")
     public String BookSearch(@ModelAttribute("bookSearch")BookSearch bookSearch, Model model) {
         model.addAttribute("searchBooks", bookService.searchBook(bookSearch));

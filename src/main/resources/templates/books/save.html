@@ -7,7 +7,10 @@
         </div>
     </div>
     <form role="form" action="/admin/books/add" th:object="${bookSaveRequestDto}" method="post" enctype="multipart/form-data">
-
+        <div class="mb-3 form-group">
+            <label th:for="coverImg" class="form-label">표지</label>
+            <input type="file" th:field="*{coverImg}" id="coverImg" class="form-control">
+        </div>
         <div class="mb-3 form-group">
             <label th:for="title" class="form-label">제목</label>
             <input type="text" th:field="*{title}" id="title" class="form-control">
@@ -16,13 +19,22 @@
             <label th:for="author" class="form-label">작가</label>
             <input type="text" th:field="*{author}" id="author" class="form-control">
         </div>
+        <select id="categoryInput" name="category">
+            <option th:each="category : ${T(jpabook.archiveB.domain.Category).values()}"
+                    th:value="${category}"
+                    th:text="${category.value}"></option>
+        </select>
         <div class="mb-3 form-group">
             <label th:for="isbn" class="form-label">isbn</label>
             <input type="text" th:field="*{isbn}" id="isbn" class="form-control">
         </div>
         <div class="mb-3 form-group">
-            <label th:for="coverImg" class="form-label">표지</label>
-            <input type="file" th:field="*{coverImg}" id="coverImg" class="form-control">
+            <label th:for="plot" class="form-label">plot</label>
+            <input type="text" th:field="*{plot}" id="plot" class="form-control">
+        </div>
+        <div class="mb-3 form-group">
+            <label th:for="publicationDate" class="form-label">publicationDate</label>
+            <input type="date" th:field="*{publicationDate}" id="publicationDate" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-primary">저장</button>

@@ -5,6 +5,7 @@ import jpabook.archiveB.domain.Category;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -16,8 +17,11 @@ public class BookResponseDto {
     private String author;
     private String coverImg;
     private Category category;
+    private String plot;
+    private String isbn;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
 
     public BookResponseDto(Book entity) {
@@ -26,6 +30,8 @@ public class BookResponseDto {
         this.author=entity.getAuthor();
         this.coverImg=entity.getCoverImg();
         this.category=entity.getCategory();
+        this.plot=entity.getPlot();
+        this.isbn=entity.getIsbn();
         this.publicationDate=entity.getPublicationDate();
     }
 

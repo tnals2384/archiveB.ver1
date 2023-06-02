@@ -2,25 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <div layout:fragment="content" class="container my-3">
-    <table>
-        <thead>
-        <tr>
-            <th>제목</th>
-            <th>작가</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr >
-            <td><span th:text="${book.title}"> </span></td>
-            <td><span th:text="${book.author}"> </span></td>
-            <td><img th:src="@{/imagePath/}+${book.coverImg}"></td>
-            <td><span th:text="${book.category}"> </span></td>
-            <td><span th:text="${book.publicationDate}"> </span></td>
-
-        </tr>
-        </tbody>
-    </table>
-
+           <span th:text="${book.title}"> </span>
+           <span th:text="${book.author}"> </span>
+           <img th:src="@{/imagePath/}+${book.coverImg}">
+           <span th:text="${book.category}"> </span>
+           <span th:text="${book.plot}"> </span>
+           <span th:text="${book.isbn}"> </span>
+           <span th:text="${book.publicationDate}"> </span>
     <!-- 댓글 목록을 표시하는 템플릿 -->
     <ul>
         <li th:each="list : ${comments}">

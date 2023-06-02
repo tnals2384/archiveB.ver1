@@ -1,0 +1,37 @@
+
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{adminLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
+<div layout:fragment="content" class="container my-3">
+  <span th:text="${book.title}"> </span>
+  <span th:text="${book.author}"> </span>
+  <img th:src="@{/imagePath/}+${book.coverImg}">
+  <span th:text="${book.category}"> </span>
+  <span th:text="${book.plot}"> </span>
+  <span th:text="${book.isbn}"> </span>
+  <span th:text="${book.publicationDate}"> </span>
+  <!-- 댓글 목록을 표시하는 템플릿 -->
+  <ul>
+    <li th:each="list : ${comments}">
+      <span th:text="${list.member.getName()}"></span>
+      <span th:text="${list.date}"></span>
+      <span th:text="${list.comment}"></span>
+      <!-- 현재 사용자가 작성자인 경우에만 수정/삭제 버튼 표시 -->
+      <div th:if="${currentMember==list.member}">
+        <!--
+                        <a data-bs-toggle="collapse" th:attr="data-bs-target=${list.id}">Edit</a>
+        -->
+
+        <a th:href="@{'/comments/'+${list.id}+'/delete'}" class="btn btn-primary">삭제</a>
+
+        <!--<form class="collapse" th:id="${list.id}"
+              th:action="@{'/comments/'+${list.id}+'/edit'}" method="post" th:object="${comment}">
+            <input type="hidden" id="id" th:field="*{id}" th:value="${list.id}">
+            <div class="form-group">
+                <textarea class="form-control" id="comment-content" rows="3" th:field="*{content}" th:text="${list.comment}"></textarea>
+            </div>
+            <button type="button" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
+        </form>-->
+      </div>
+    </li>
+  </ul>
+</div>

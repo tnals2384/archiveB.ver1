@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Setter
@@ -28,11 +29,11 @@ public class BookSaveRequestDto {
     private Category category;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date publicationDate;
+    private LocalDate publicationDate;
 
     @Builder
     public BookSaveRequestDto(String title, String author, String isbn, MultipartFile coverImg,
-                              String plot, Date publicationDate, Category category) {
+                              String plot, LocalDate publicationDate, Category category) {
         this.title=title;
         this.author=author;
         this.isbn =isbn;
