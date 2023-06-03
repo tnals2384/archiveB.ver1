@@ -53,16 +53,18 @@ public class Book extends BaseEntity {
     }
 
 
-    public void updateBook(String title, String author, String isbn, String coverImg,
+    public void updateBook(String title, String author, String isbn,
                       String plot, LocalDate publicationDate, Category category) {
         this.title=title;
-        this.author =author;
-        this.isbn=isbn;
-        this.coverImg = coverImg;
+        this.author = author;
+        this.isbn = isbn;
         this.plot = plot;
         this.publicationDate = publicationDate;
         this.category = category;
     }
 
+    public void updateCoverImg(String coverImg) {
+        this.coverImg = coverImg;
+    }
 
 }

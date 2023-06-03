@@ -9,6 +9,7 @@ import jpabook.archiveB.web.dto.book.BookSearch;
 import jpabook.archiveB.repository.CommentRepository;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
+import jpabook.archiveB.web.dto.book.BookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -59,15 +60,18 @@ public class BookService {
     //책 정보 update
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public Long updateBook(Long id, BookSaveRequestDto dto) throws IOException{
+    public Long updateBook(Long id, BookUpdateRequestDto dto) throws IOException{
         Book book = bookRepository.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("해당 책이 없습니다. id="+id));
 
-        fileStore.deleteFile(book.getCoverImg());
-        String filePath = fileStore.saveFile(dto.getCoverImg());
+        if(!dto.getCoverImg().isEmpty()) {
+            fileStore.deleteFile(book.getCoverImg());
+            String filePath = fileStore.saveFile(dto.getCoverImg());
+            book.updateCoverImg(filePath);
+        }
 
         book.updateBook(dto.getTitle(), dto.getAuthor(),
-                dto.getIsbn(), filePath,
+                dto.getIsbn(),
                 dto.getPlot(), dto.getPublicationDate(),dto.getCategory());
 
         return id;

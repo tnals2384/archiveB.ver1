@@ -1,14 +1,52 @@
 
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{adminLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-
 <div layout:fragment="content" class="container my-3">
-  <span th:text="${book.title}"> </span>
-  <span th:text="${book.author}"> </span>
-  <img th:src="@{/imagePath/}+${book.coverImg}">
-  <span th:text="${book.category}"> </span>
-  <span th:text="${book.plot}"> </span>
-  <span th:text="${book.isbn}"> </span>
-  <span th:text="${book.publicationDate}"> </span>
+  <div class="my-3 border-bottom">
+    <div>
+      <h4>Book 정보 확인, 수정</h4>
+    </div>
+  </div>
+  <form role="form" th:object="${updateDto}" method="post" enctype="multipart/form-data">
+    <div class="mb-3 form-group">
+      <label th:for="coverImg" class="form-label">표지</label>
+      <!--파일 수정하고 싶을 시 img삭제 버튼 추가, 삭제 누르면 파일 선택 input 뜨도록 -->
+      <img th:src="@{/imagePath/}+${bookImg}">
+      <input type="file" th:field="*{coverImg}" id="coverImg" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="title" class="form-label">제목</label>
+      <input type="text"  th:field="*{title}" id="title" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="author" class="form-label">작가</label>
+      <input type="text"  th:field="*{author}" id="author" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="category" class="form-label">카테고리</label>
+      <select id="categoryInput" name="category" >
+        <option  th:each="category : ${T(jpabook.archiveB.domain.Category).values()}"
+                 th:value="${category}"
+                 th:text="${category.value}"
+                 th:selected="${category.value} == *{category.value}"
+        ></option>
+      </select>
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="isbn" class="form-label">isbn</label>
+      <input type="text"  th:field="*{isbn}" id="isbn" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="plot" class="form-label">plot</label>
+      <input type="text" th:field="*{plot}" id="plot" class="form-control">
+    </div>
+    <div class="mb-3 form-group">
+      <label th:for="publicationDate" class="form-label">publicationDate</label>
+      <input type="date" th:field="*{publicationDate}" id="publicationDate" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">수정</button>
+  </form>
+</div>
   <!-- 댓글 목록을 표시하는 템플릿 -->
   <ul>
     <li th:each="list : ${comments}">
@@ -35,3 +73,4 @@
     </li>
   </ul>
 </div>
+</html>

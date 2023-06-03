@@ -3,23 +3,23 @@ package jpabook.archiveB.controller;
 
 import jpabook.archiveB.base.BaseException;
 import jpabook.archiveB.base.FileStore;
+import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.web.dto.CommentResponseDto;
+import jpabook.archiveB.web.dto.PostUpdateRequestDto;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
 import jpabook.archiveB.web.dto.book.BookSearch;
+import jpabook.archiveB.web.dto.book.BookUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class BookController {
     @PostMapping("admin/books/add")
     public String BookSave(@Valid BookSaveRequestDto requestDto) throws IOException {
         Long bookId = bookService.saveBook(requestDto);
-        return "redirect:admin/books/"+bookId;
+        return "redirect:/"+bookId;
     }
 
     @GetMapping("/books/{bookId}")
@@ -96,7 +96,7 @@ public class BookController {
         model.addAttribute("comments", comments);
 
         //현재 로그인한 사용자 정보
-        Member currentMember= new Member();
+        Member currentMember;
         try {
          currentMember = memberService.getUser(principal.getName());
         model.addAttribute("currentMember",currentMember);
@@ -104,10 +104,42 @@ public class BookController {
         } catch (Exception e) {
              currentMember = null;
         }
-        if(currentMember.getRole().equals(Role.ADMIN) )
-                return "books/adminDetail";
-        else
-            return "books/detail";
+        return "books/detail";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/books/{bookId}")
+    public String BookUpdate(@PathVariable("bookId") Long bookId, Model model,Principal principal)
+            throws BaseException,IOException {
+        // book 조회
+        BookResponseDto bookDto = bookService.findById(bookId);
+
+        BookUpdateRequestDto updateDto = BookUpdateRequestDto.builder()
+                .id(bookId)
+                .title(bookDto.getTitle())
+                .author(bookDto.getAuthor())
+                .isbn(bookDto.getIsbn())
+                .plot(bookDto.getPlot())
+                .publicationDate(bookDto.getPublicationDate())
+                .category(bookDto.getCategory())
+                .build();
+        model.addAttribute("bookImg",bookDto.getCoverImg());
+        model.addAttribute("updateDto",updateDto);
+
+
+        // 댓글 조회
+        List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId);
+        model.addAttribute("comments", comments);
+
+        return "books/adminDetail";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/admin/books/{bookId}")
+    public String BookUpdate(@PathVariable("bookId") Long bookId, @ModelAttribute("updateDto") @Valid BookUpdateRequestDto updateDto)
+            throws BaseException,IOException {
+        bookService.updateBook(bookId,updateDto);
+        return "redirect:/admin/books/"+bookId;
     }
 
 
