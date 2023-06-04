@@ -60,7 +60,7 @@ public class FileStore {
     }
 
     public boolean deleteFile(String filePath) throws IOException {
-        File file = new File(filePath);
+        File file = new File("C:/Users/tnals/study/archiveB/files/"+filePath);
         boolean result = file.delete();
 
         return result;

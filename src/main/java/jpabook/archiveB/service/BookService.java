@@ -81,11 +81,12 @@ public class BookService {
     //책 정보 삭제
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    public void deleteBook(Long id) {
+    public void deleteBook(Long id) throws IOException {
         Book book =bookRepository.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("해당 책이 없습니다. id="+id));
 
         bookRepository.deleteBook(book);
+        fileStore.deleteFile(book.getCoverImg());
     }
 
 

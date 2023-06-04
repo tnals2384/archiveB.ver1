@@ -2,15 +2,11 @@ package jpabook.archiveB.controller;
 
 
 import jpabook.archiveB.base.BaseException;
-import jpabook.archiveB.base.FileStore;
-import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Member;
-import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.web.dto.CommentResponseDto;
-import jpabook.archiveB.web.dto.PostUpdateRequestDto;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
 import jpabook.archiveB.web.dto.book.BookSearch;
@@ -81,7 +77,7 @@ public class BookController {
     @PostMapping("admin/books/add")
     public String BookSave(@Valid BookSaveRequestDto requestDto) throws IOException {
         Long bookId = bookService.saveBook(requestDto);
-        return "redirect:/"+bookId;
+        return "redirect:/admin/books/"+bookId;
     }
 
     @GetMapping("/books/{bookId}")
@@ -140,6 +136,17 @@ public class BookController {
             throws BaseException,IOException {
         bookService.updateBook(bookId,updateDto);
         return "redirect:/admin/books/"+bookId;
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/books/{bookId}/delete")
+    public String bookDelete(@PathVariable Long bookId) throws BaseException, IOException{
+        // book 조회
+        BookResponseDto bookDto = bookService.findById(bookId);
+
+        bookService.deleteBook(bookDto.getId());
+
+        return "redirect:/admin/books/list";
     }
 
 
