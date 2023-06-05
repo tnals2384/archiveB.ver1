@@ -1,0 +1,18 @@
+
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{adminLayout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+  <table>
+    <thead>
+    <tr>
+      <th>이름</th>
+      <th>email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="list : ${members}" >
+      <td><span th:text="${list.name}"> </span></td>
+      <td><span th:text="${list.email}"> </span></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

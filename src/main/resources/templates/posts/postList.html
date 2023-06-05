@@ -3,7 +3,7 @@
 <div layout:fragment="content" class="container my-3">
   <a th:href="@{/posts/write}" class="btn btn-primary">글쓰기</a>
 
-
+  <div th:if="${posts}">
   <table>
     <thead>
     <tr>
@@ -13,10 +13,10 @@
     </thead>
     <tbody>
     <tr th:each="list : ${posts}">
-      <td><span th:text="${list.title}"> </span></td>
-      <td><span th:text="${list.postDate}"> </span></td>
-
+      <td><a th:href="@{'/posts/'+${list.id}}"><span th:text="${list.title}"> </span></td>
+      <td><span th:text="${#temporals.format(list.postDate, 'yyyy-MM-dd')}"></span></td>
     </tr>
     </tbody>
   </table>
+  </div>
 </div>

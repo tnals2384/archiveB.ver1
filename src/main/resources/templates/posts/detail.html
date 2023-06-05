@@ -11,12 +11,13 @@
     <tbody>
     <tr>
       <td><span th:text="${post.title}"> </span></td>
-      <td><span th:text="${post.created_at}"> </span></td>
+      <td><span th:text="${#temporals.format(post.postDate, 'yyyy-MM-dd')}"></span></td>
     </tr>
-    <span th:text="${post.content}"> </span>
-    <a th:href="@{'/posts/'+${postId}+'/edit'}" class="btn btn-primary">수정</a>
-    <a th:href="@{'/posts/'+${postId}+'/delete'}" class="btn btn-primary">삭제</a>
-
     </tbody>
   </table>
+  <span th:text="${post.content}"> </span>
+  <div>
+  <a th:href="@{'/posts/'+${postId}+'/edit'}" class="btn btn-primary">수정</a>
+  <a th:href="@{'/posts/'+${postId}+'/delete'}" class="btn btn-primary">삭제</a>
+  </div>
 </div>

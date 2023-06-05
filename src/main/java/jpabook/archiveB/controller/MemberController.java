@@ -1,10 +1,12 @@
 package jpabook.archiveB.controller;
 
+import jpabook.archiveB.base.BaseException;
 import jpabook.archiveB.domain.Role;
 import jpabook.archiveB.service.MemberService;
 import jpabook.archiveB.web.dto.MemberCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +20,13 @@ import javax.validation.Valid;
 @Controller
 public class MemberController {
     private final MemberService memberService;
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/members/list")
+    public String AdminMemberList(Model model) throws BaseException {
+        model.addAttribute("members",memberService.findUsers());
+        return "members/adminMemberList";
+    }
 
 
     /*

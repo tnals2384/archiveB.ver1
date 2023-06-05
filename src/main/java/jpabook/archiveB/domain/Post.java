@@ -31,6 +31,7 @@ public class Post extends BaseEntity {
     private String content;
 
     private Date startDate;
+
     private Date endDate;
 
 
