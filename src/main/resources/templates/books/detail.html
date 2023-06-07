@@ -39,6 +39,7 @@
               <span th:each="i : ${#numbers.sequence(1, 5)}">
                 <span th:classappend="${i &lt;= list.star} ? 'filled comment-star' : 'comment-star'">★</span>
               </span>
+            </div>
             <span th:text="${list.member.getName()}"></span>
             <span th:text="${list.date}"></span>
             <span th:text="${list.comment}"></span>
