@@ -23,6 +23,8 @@ public class BookResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
 
+    private Double starAvg;
+
 
     public BookResponseDto(Book entity) {
         this.id= entity.getId();
@@ -35,4 +37,7 @@ public class BookResponseDto {
         this.publicationDate=entity.getPublicationDate();
     }
 
+    public void setStarAvg(Double starAvg) {
+        this.starAvg = starAvg;
+    }
 }

@@ -3,6 +3,7 @@ package jpabook.archiveB.controller;
 
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
+import jpabook.archiveB.web.dto.CommentRequestDto;
 import jpabook.archiveB.web.dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -27,6 +30,16 @@ public class CommentController {
         model.addAttribute("comments",commentService.findAllbyMemberId(memberId));
 
         return "comments/commentList";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/comments/{bookId}/add")
+    public String CommentSave(@PathVariable Long bookId, @Valid CommentRequestDto requestDto
+    ,Principal principal) {
+        Long memberId = memberService.getUser(principal.getName()).getId();
+        commentService.writeComment(memberId,bookId,requestDto);
+        return "redirect:/books/{bookId}";
+
     }
 
 

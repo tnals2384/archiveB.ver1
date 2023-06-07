@@ -1,7 +1,11 @@
 
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-
 <div layout:fragment="content" class="container my-3">
+            <div class="star-rating">
+          <span th:each="i : ${#numbers.sequence(1, 5)}">
+            <span th:classappend="${i &lt;= book.starAvg} ? 'filled star' : 'star'">★</span>
+          </span>
+            </div>
            <span th:text="${book.title}"> </span>
            <span th:text="${book.author}"> </span>
            <img th:src="@{/imagePath/}+${book.coverImg}">
@@ -9,9 +13,32 @@
            <span th:text="${book.plot}"> </span>
            <span th:text="${book.isbn}"> </span>
            <span th:text="${book.publicationDate}"> </span>
-    <!-- 댓글 목록을 표시하는 템플릿 -->
+    <!-- Comment 목록을 표시하는 템플릿 -->
+    <form class="commentForm"th:action="@{'/comments/'+${bookId}+'/add'}" th:object="${commentDto}"method="post">
+        <span class="text-bold">리뷰 작성하기! </span>
+        <fieldset>
+                <input type="radio" name="star" value="5" th:checked="${commentDto.star=='5'}" id="rate1"><label
+                    for="rate1">★</label>
+                <input type="radio" name="star" value="4" th:checked="${commentDto.star=='4'}" id="rate2"><label
+                    for="rate2">★</label>
+                <input type="radio" name="star" value="3" th:checked="${commentDto.star=='3'}" id="rate3"><label
+                    for="rate3">★</label>
+                <input type="radio" name="star" value="2"  th:checked="${commentDto.star=='2'}" id="rate4"><label
+                    for="rate4">★</label>
+                <input type="radio" name="star" value="1"  th:checked="${commentDto.star=='1'}" id="rate5"><label
+                    for="rate5">★</label>
+            </fieldset>
+            <textarea class="content" th:field="*{content}"></textarea>
+        <div>
+            <button type="submit">댓글 작성</button>
+        </div>
+    </form>
     <ul>
         <li th:each="list : ${comments}">
+            <div class="star-rating">
+              <span th:each="i : ${#numbers.sequence(1, 5)}">
+                <span th:classappend="${i &lt;= list.star} ? 'filled comment-star' : 'comment-star'">★</span>
+              </span>
             <span th:text="${list.member.getName()}"></span>
             <span th:text="${list.date}"></span>
             <span th:text="${list.comment}"></span>

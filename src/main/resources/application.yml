@@ -25,7 +25,7 @@ spring:
         format_sql: true
 
   thymeleaf:
-  prefix: classpath:/templates/
+  prefix: classpath:/templates/, classpath:/static/
   suffix: .html
 
 logging.level:

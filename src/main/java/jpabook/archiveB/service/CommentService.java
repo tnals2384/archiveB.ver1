@@ -8,6 +8,7 @@ import jpabook.archiveB.repository.BookRepository;
 import jpabook.archiveB.repository.CommentRepository;
 import jpabook.archiveB.repository.MemberRepository;
 
+import jpabook.archiveB.web.dto.CommentRequestDto;
 import jpabook.archiveB.web.dto.CommentResponseDto;
 import jpabook.archiveB.web.dto.PostResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -47,15 +48,15 @@ public class CommentService {
 
     //코멘트 작성
     @Transactional
-    public Long writeComment(Long userId, Long bookId, int star, String text) {
+    public Long writeComment(Long userId, Long bookId, CommentRequestDto requestDto) {
         Member member = memberRepository.findOne(userId);
         Book book = bookRepository.findOne(bookId).orElseThrow(()
                 -> new IllegalArgumentException("해당 책이 없습니다. id"+userId));
 
         Comment comment = Comment.builder().member(member)
                 .book(book)
-                .star(star)
-                .comment(text).build();
+                .star(requestDto.getStar())
+                .comment(requestDto.getContent()).build();
 
         commentRepository.save(comment);
         return comment.getId();
@@ -79,6 +80,7 @@ public class CommentService {
         );
         commentRepository.deleteComment(comment);
     }
+
 
 
 }

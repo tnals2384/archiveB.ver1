@@ -12,10 +12,12 @@ public class CommentRequestDto {
     private Long id;
     private String content;
 
+    private int star;
     @Builder
-    public CommentRequestDto(Long id,String content) {
+    public CommentRequestDto(Long id,String content,int star) {
         this.id =id;
         this.content =content;
+        this.star= star;
     }
 
 }

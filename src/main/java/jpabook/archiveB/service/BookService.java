@@ -25,13 +25,17 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final CommentRepository commentRepository;
     private final FileStore fileStore;
     //id로 책 찾기
     public BookResponseDto findById(Long id) throws BaseException{
         Book entity = bookRepository.findOne(id)
                 .orElseThrow(()-> new BaseException(BaseResponseStatus.POSTS_EMPTY_POST_ID));
 
-        return new BookResponseDto(entity);
+        Double starAvg = getAverageRatingByBookId(id);
+        BookResponseDto responseDto = new BookResponseDto(entity);
+        responseDto.setStarAvg(starAvg);
+        return responseDto;
     }
 
     //book list를 불러오기 위한 findBooks
@@ -39,6 +43,10 @@ public class BookService {
         //Book stream을 map을 통해 BookListResponseDto로 변환하여 list로 반환
         try {
             List<BookResponseDto> books = bookRepository.findAll().stream().map(BookResponseDto::new).collect(Collectors.toList());
+            for (BookResponseDto book: books) {
+                Double starAvg = getAverageRatingByBookId(book.getId());
+                book.setStarAvg(starAvg);
+            }
             return books;
         }
         catch (Exception exception) {
@@ -95,6 +103,10 @@ public class BookService {
     public List<BookResponseDto> searchBook(BookSearch bookSearch) {
         return bookRepository.Search(bookSearch).stream().map(BookResponseDto::new).collect(Collectors.toList());
 
+    }
+
+    public double getAverageRatingByBookId(Long bookId) {
+        return commentRepository.getAverageRatingByBookId(bookId);
     }
 
 }

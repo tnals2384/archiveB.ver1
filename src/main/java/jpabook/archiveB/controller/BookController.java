@@ -6,6 +6,7 @@ import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.service.BookService;
 import jpabook.archiveB.service.CommentService;
 import jpabook.archiveB.service.MemberService;
+import jpabook.archiveB.web.dto.CommentRequestDto;
 import jpabook.archiveB.web.dto.CommentResponseDto;
 import jpabook.archiveB.web.dto.book.BookResponseDto;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
@@ -90,7 +91,8 @@ public class BookController {
         // 댓글 조회
         List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId);
         model.addAttribute("comments", comments);
-
+        //코멘트 입력을 받아올 dto model에 추가
+        model.addAttribute("commentDto",new CommentRequestDto());
         //현재 로그인한 사용자 정보
         Member currentMember;
         try {

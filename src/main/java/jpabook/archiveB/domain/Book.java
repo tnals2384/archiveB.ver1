@@ -30,9 +30,7 @@ public class Book extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Category category;
-
-    //private double starAvg;  //평균별점 ..어카죵?
-
+    
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 

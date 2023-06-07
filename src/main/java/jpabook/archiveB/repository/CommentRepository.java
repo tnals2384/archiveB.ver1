@@ -1,6 +1,8 @@
 package jpabook.archiveB.repository;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.archiveB.domain.Comment;
+import jpabook.archiveB.domain.QComment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentRepository {
     private final EntityManager em;
+    public final JPAQueryFactory queryFactory;
 
     public void save(Comment comment) {
         em.persist(comment);
@@ -48,5 +51,20 @@ public class CommentRepository {
     public void deleteComment(Comment comment) {
         em.remove(comment);
     }
+
+    public double getAverageRatingByBookId(Long bookId) {
+        QComment comment = QComment.comment1;
+
+        Double averageRating = queryFactory
+                .select(comment.star.avg())
+                .from(comment)
+                .where(comment.book.id.eq(bookId))
+                .fetchOne();
+
+        return averageRating != null ? averageRating : 0.0;
+    }
+
+
+
 
 }

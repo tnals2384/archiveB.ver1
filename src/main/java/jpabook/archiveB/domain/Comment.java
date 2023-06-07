@@ -23,8 +23,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    private String comment;
     private int star; //별점
+    private String comment;
 
     private LocalDateTime date; //코멘트 작성 날짜
 
