@@ -16,7 +16,7 @@ public class CommentResponseDto {
     private Book book;
     private String comment;
     private int star;
-    private boolean MyComment;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime date; //코멘트 작성 날짜
 
@@ -27,6 +27,6 @@ public class CommentResponseDto {
         this.member=entity.getMember();
         this.comment=entity.getComment();
         this.star=entity.getStar();
-        this.date=entity.getDate();
+        this.date=entity.getCreatedAt();
     }
 }

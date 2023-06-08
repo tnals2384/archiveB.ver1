@@ -41,7 +41,7 @@
               </span>
             </div>
             <span th:text="${list.member.getName()}"></span>
-            <span th:text="${list.date}"></span>
+            <span th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
             <span th:text="${list.comment}"></span>
             <!-- 현재 사용자가 작성자인 경우에만 수정/삭제 버튼 표시 -->
             <div th:if="${currentMember==list.member}">

@@ -3,8 +3,8 @@
     <!-- 댓글 목록을 표시하는 템플릿 -->
     <ul>
         <li th:each="list : ${comments}">
-            <span th:text="${list.member.getName()}"></span>
-            <span th:text="${list.date}"></span>
+            <a th:href="@{'/books/'+${list.book.id}}"><span th:text="${list.book.title}"></span></a>
+            <span th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
             <span th:text="${list.comment}"></span>
         </li>
     </ul>

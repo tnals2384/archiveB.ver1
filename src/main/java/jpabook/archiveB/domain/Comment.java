@@ -26,7 +26,6 @@ public class Comment extends BaseEntity {
     private int star; //별점
     private String comment;
 
-    private LocalDateTime date; //코멘트 작성 날짜
 
     //==연관관계 메서드==//
     public void setMember(Member user) {
