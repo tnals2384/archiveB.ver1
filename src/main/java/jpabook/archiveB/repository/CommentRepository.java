@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static jpabook.archiveB.domain.QComment.comment1;
 @Repository
 @RequiredArgsConstructor
 public class CommentRepository {
@@ -37,15 +38,6 @@ public class CommentRepository {
         return em.createQuery("select c from Comment c where c.member.id= :memberId", Comment.class)
                 .setParameter("memberId",memberId).getResultList();
     }
-    //페이징
-    public List<Comment> findByPage(Long bookId,int offset, int limit) {
-        return em.createQuery("select c from Comment c  where c.book.id= :bookId " +
-                        "order by c.date desc",Comment.class)
-                .setParameter("bookId",bookId)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-    }
 
 
     public void deleteComment(Comment comment) {
@@ -53,7 +45,7 @@ public class CommentRepository {
     }
 
     public double getAverageRatingByBookId(Long bookId) {
-        QComment comment = QComment.comment1;
+        QComment comment = comment1;
 
         Double averageRating = queryFactory
                 .select(comment.star.avg())
@@ -62,6 +54,20 @@ public class CommentRepository {
                 .fetchOne();
 
         return averageRating != null ? averageRating : 0.0;
+    }
+
+    //페이징
+    public List<Comment> findCommentsByPage(int offset, int limit) {
+        QComment comment = comment1;
+
+        List<Comment> result = queryFactory
+                .selectFrom(comment)
+                .orderBy(comment.createdAt.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+
+        return result;
     }
 
 

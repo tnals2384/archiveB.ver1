@@ -15,7 +15,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import static jpabook.archiveB.domain.QBook.book;
-import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 @RequiredArgsConstructor
@@ -36,13 +35,6 @@ public class BookRepository {
                 .getResultList();
     }
 
-    //페이징
-    public List<Book> findByPage(int offset, int limit) {
-        return em.createQuery("select b from Book b order by b.publicationDate desc")
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-    }
 
     public void deleteBook(Book book) {
         em.remove(book);
@@ -79,7 +71,17 @@ public class BookRepository {
 
 
 
+    //페이징
+    public List<Book> findBooksByPage(int offset, int limit) {
+        List<Book> result = queryFactory
+                .selectFrom(book)
+                .orderBy(book.publicationDate.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetch();
 
+        return result;
+    }
 
 
 

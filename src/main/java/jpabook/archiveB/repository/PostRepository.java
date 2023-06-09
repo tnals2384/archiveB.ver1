@@ -1,8 +1,6 @@
 package jpabook.archiveB.repository;
 
-import jpabook.archiveB.domain.Book;
-import jpabook.archiveB.domain.Comment;
-import jpabook.archiveB.domain.Member;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.archiveB.domain.Post;
 
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+
+import static jpabook.archiveB.domain.QPost.post;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,16 +31,22 @@ public class PostRepository {
                 .setParameter("memberId",memberId).getResultList();
     }
 
-    
-    //페이징
-    public List<Post> findByPage(int offset, int limit) {
-        return em.createQuery("select p from Post p order by p.postDate desc")
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-    }
-
     public void deletePost (Post post) {
         em.remove(post);
     }
+
+
+    public final JPAQueryFactory queryFactory;
+    //페이징
+    public List<Post> findPostsByPage(int offset, int limit) {
+        List<Post> result = queryFactory
+                .selectFrom(post)
+                .orderBy(post.createdAt.desc())
+                .offset(offset)
+                .limit(limit)
+                .fetch();
+
+        return result;
+    }
 }
+

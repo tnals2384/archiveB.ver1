@@ -4,7 +4,6 @@ import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Category;
 import jpabook.archiveB.repository.BookRepository;
 import jpabook.archiveB.web.dto.book.BookSaveRequestDto;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +44,7 @@ class BookServiceTest {
         Date date = simpleDateFormat.parse("2021-10-09");
         //given
         BookSaveRequestDto dto = BookSaveRequestDto.builder()
-                .title("므레모사").author("김초엽").publicationDate(date)
+                .title("므레모사").author("김초엽")
                 .build();
 
         Long id=bookService.saveBook(dto);
@@ -59,16 +59,16 @@ class BookServiceTest {
 
     @Test
     void BookPaging() throws Exception {
-        bookRepository.save(new Book("책1","tnals","","","",new Date() , Category.NOVEL));
-        bookRepository.save(new Book("책2","tnals","","","",new Date() , Category.NOVEL));
-        bookRepository.save(new Book("책3","tnals","","","",new Date() , Category.NOVEL));
-        bookRepository.save(new Book("책4","tnals","","","",new Date() , Category.NOVEL));
-        bookRepository.save(new Book("책5","tnals","","","",new Date() , Category.NOVEL));
+        bookRepository.save(new Book("책1","tnals","","","", LocalDate.of(2022,02,01), Category.NOVEL));
+        bookRepository.save(new Book("책2","tnals","","","", LocalDate.of(2022,02,01), Category.NOVEL));
+        bookRepository.save(new Book("책3","tnals","","","", LocalDate.of(2022,02,01), Category.NOVEL));
+        bookRepository.save(new Book("책4","tnals","","","", LocalDate.of(2022,02,01), Category.NOVEL));
+        bookRepository.save(new Book("책5","tnals","","","", LocalDate.of(2022,02,01), Category.NOVEL));
 
         int offset=0;
         int limit=3;
 
-        List<Book> books= bookRepository.findByPage(offset,limit);
+        List<Book> books= bookRepository.findBooksByPage(offset,limit);
 
         Assertions.assertEquals(books.size(),3);
 
