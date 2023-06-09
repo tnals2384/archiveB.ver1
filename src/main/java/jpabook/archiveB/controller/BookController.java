@@ -82,14 +82,16 @@ public class BookController {
     }
 
     @GetMapping("/books/{bookId}")
-    public String BookDetail(@PathVariable("bookId") Long bookId, Model model,Principal principal)
+    public String BookDetail(@PathVariable("bookId") Long bookId,
+                             @RequestParam(defaultValue = "0") int commentPage,
+                             Model model,Principal principal)
             throws BaseException,IOException {
         // book 조회
         BookResponseDto bookDto = bookService.findById(bookId);
         model.addAttribute("book",bookDto);
 
         // 댓글 조회
-        List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId);
+        List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId,commentPage);
         model.addAttribute("comments", comments);
         //코멘트 입력을 받아올 dto model에 추가
         model.addAttribute("commentDto",new CommentRequestDto());
@@ -107,7 +109,9 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/books/{bookId}")
-    public String BookUpdate(@PathVariable("bookId") Long bookId, Model model,Principal principal)
+    public String BookUpdate(@PathVariable("bookId") Long bookId,
+                             @RequestParam(defaultValue = "0") int commentPage,
+                             Model model,Principal principal)
             throws BaseException,IOException {
         // book 조회
         BookResponseDto bookDto = bookService.findById(bookId);
@@ -126,7 +130,7 @@ public class BookController {
 
 
         // 댓글 조회
-        List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId);
+        List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId,commentPage);
         model.addAttribute("comments", comments);
 
         return "books/adminDetail";

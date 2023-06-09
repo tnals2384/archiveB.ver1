@@ -20,6 +20,7 @@ import static jpabook.archiveB.domain.QBook.book;
 @RequiredArgsConstructor
 public class BookRepository {
     private final EntityManager em;
+    public final JPAQueryFactory queryFactory;
 
     public void save(Book book) { //책정보저장
         em.persist(book);
@@ -35,7 +36,6 @@ public class BookRepository {
         em.remove(book);
     }
 
-    public final JPAQueryFactory queryFactory;
 
     public List<Book> Search(BookSearch bookSearch) {
 

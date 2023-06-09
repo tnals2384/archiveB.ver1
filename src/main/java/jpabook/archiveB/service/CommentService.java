@@ -28,14 +28,14 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
 
-    public List<CommentResponseDto> findAllbyBookId(Long bookId) {
+    public List<CommentResponseDto> findAllbyBookId(Long bookId,int pageNo) {
         //Comment stream을 map을 통해 CommentResponseDto로 변환하여 list로
-        return commentRepository.findBookComments(bookId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        return commentRepository.findCommentsByPage(bookId,pageNo,10).stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 
-    public List<CommentResponseDto> findAllbyMemberId(Long memberId) {
+    public List<CommentResponseDto> findAllbyMemberId(Long memberId,int pageNo) {
         //Comment stream을 map을 통해 CommentResponseDto로 변환하여 list로 반환
-        return commentRepository.findMyComment(memberId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        return commentRepository.findMyCommentsByPage(memberId,pageNo,10).stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 
     public CommentResponseDto findById(Long id) {

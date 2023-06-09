@@ -30,9 +30,10 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/posts/list")
-    public String PostList (Model model, Principal principal) {
+    public String PostList (Model model,@RequestParam(defaultValue = "0") int page,
+                            Principal principal) {
         Long memberId= memberService.getUser(principal.getName()).getId();
-        model.addAttribute("posts",postService.findPosts(memberId));
+        model.addAttribute("posts",postService.findPosts(memberId,page));
         return "posts/postList";
     }
 

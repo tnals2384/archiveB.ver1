@@ -56,9 +56,9 @@ public class PostService {
 
 
     //post list를 불러온다
-    public List<PostResponseDto> findPosts(Long memberId) {
+    public List<PostResponseDto> findPosts(Long memberId,int pageNo) {
         //Post stream을 map을 통해 PostResponseDto로 변환하여 list로 반환
-        return postRepository.findAll(memberId).stream().map(PostResponseDto::new).collect(Collectors.toList());
+        return postRepository.findPostsByPage(memberId,pageNo,10).stream().map(PostResponseDto::new).collect(Collectors.toList());
     }
 
 

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -25,9 +26,11 @@ public class CommentController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/comments/list")
-    public String CommentList(Model model,Principal principal) {
+    public String CommentList(Model model,
+                              @RequestParam(defaultValue = "0") int page,
+                              Principal principal) {
         Long memberId = memberService.getUser(principal.getName()).getId();
-        model.addAttribute("comments",commentService.findAllbyMemberId(memberId));
+        model.addAttribute("comments",commentService.findAllbyMemberId(memberId,page));
 
         return "comments/commentList";
     }

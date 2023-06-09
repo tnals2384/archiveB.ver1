@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static jpabook.archiveB.domain.QComment.comment1;
+import static jpabook.archiveB.domain.QPost.post;
+
 @Repository
 @RequiredArgsConstructor
 public class CommentRepository {
@@ -24,19 +26,6 @@ public class CommentRepository {
     public Optional<Comment> findOne(Long id) {
         Comment comment= em.find(Comment.class, id);
         return Optional.ofNullable(comment);
-    }
-
-
-    //책의 Comment
-    public List<Comment> findBookComments(Long bookId) {
-        return em.createQuery("select c from Comment c where c.book.id= :bookId", Comment.class)
-                .setParameter("bookId",bookId).getResultList();
-    }
-
-    //나의 Comment
-    public List<Comment> findMyComment(Long memberId) {
-        return em.createQuery("select c from Comment c where c.member.id= :memberId", Comment.class)
-                .setParameter("memberId",memberId).getResultList();
     }
 
 
@@ -56,14 +45,32 @@ public class CommentRepository {
         return averageRating != null ? averageRating : 0.0;
     }
 
-    //페이징
-    public List<Comment> findCommentsByPage(int offset, int limit) {
+    //책 comment
+    public List<Comment> findCommentsByPage(Long bookId,int offset, int limit) {
         QComment comment = comment1;
 
         List<Comment> result = queryFactory
                 .selectFrom(comment)
+                .where(comment.book.id.eq(bookId))
                 .orderBy(comment.createdAt.desc())
-                .offset(offset)
+                .offset(offset*limit)
+                .limit(limit)
+                .fetch();
+
+        return result;
+    }
+
+
+
+    //나의 comment
+    public List<Comment> findMyCommentsByPage(Long memberId,int offset, int limit) {
+        QComment comment = comment1;
+
+        List<Comment> result = queryFactory
+                .selectFrom(comment)
+                .where(comment.member.id.eq(memberId))
+                .orderBy(comment.createdAt.desc())
+                .offset(offset*limit)
                 .limit(limit)
                 .fetch();
 
