@@ -30,11 +30,6 @@ public class BookRepository {
         return Optional.ofNullable(book);
     }
 
-    public List<Book> findAll() {
-        return em.createQuery("select b from Book b",Book.class)
-                .getResultList();
-    }
-
 
     public void deleteBook(Book book) {
         em.remove(book);
@@ -75,8 +70,8 @@ public class BookRepository {
     public List<Book> findBooksByPage(int offset, int limit) {
         List<Book> result = queryFactory
                 .selectFrom(book)
-                .orderBy(book.publicationDate.desc())
-                .offset(offset)
+                .orderBy(book.createdAt.desc())
+                .offset(offset*limit)
                 .limit(limit)
                 .fetch();
 

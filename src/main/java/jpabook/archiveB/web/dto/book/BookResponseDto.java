@@ -37,6 +37,7 @@ public class BookResponseDto {
         this.publicationDate=entity.getPublicationDate();
     }
 
+
     public void setStarAvg(Double starAvg) {
         this.starAvg = starAvg;
     }

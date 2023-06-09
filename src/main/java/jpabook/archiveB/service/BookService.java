@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,13 +40,20 @@ public class BookService {
     }
 
     //book list를 불러오기 위한 findBooks
-    public List<BookResponseDto> findBooks() throws BaseException {
+    public List<BookResponseDto> findBooks(int pageNo) throws BaseException {
         //Book stream을 map을 통해 BookListResponseDto로 변환하여 list로 반환
         try {
-            List<BookResponseDto> books = bookRepository.findAll().stream().map(BookResponseDto::new).collect(Collectors.toList());
-            for (BookResponseDto book: books) {
+
+            //10개씩 페이징
+            List<Book> list = bookRepository.findBooksByPage(pageNo, 10);
+            List<BookResponseDto> books = new ArrayList<>();
+
+            for (Book book : list) {
+                BookResponseDto bookResponseDto = new BookResponseDto(book);
                 Double starAvg = getAverageRatingByBookId(book.getId());
-                book.setStarAvg(starAvg);
+                bookResponseDto.setStarAvg(starAvg);
+                books.add(bookResponseDto);
+
             }
             return books;
         }

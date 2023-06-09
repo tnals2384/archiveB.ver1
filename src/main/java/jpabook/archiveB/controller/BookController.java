@@ -56,15 +56,15 @@ public class BookController {
 
     //book list 불러오기
     @GetMapping("/books/list")
-    public String BookList(Model model) throws BaseException {
-        model.addAttribute("books",bookService.findBooks());
+    public String BookList(Model model,@RequestParam(defaultValue = "0") int page) throws BaseException {
+        model.addAttribute("books",bookService.findBooks(page));
         return "books/bookList";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/books/list")
-    public String AdminBookList(Model model) throws BaseException {
-        model.addAttribute("books",bookService.findBooks());
+    public String AdminBookList(Model model, int page) throws BaseException {
+        model.addAttribute("books",bookService.findBooks(page));
         return "books/adminBookList";
     }
 
