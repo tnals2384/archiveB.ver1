@@ -1,7 +1,7 @@
-
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<body>
 <div layout:fragment="content" class="container my-3">
-    <table>
+    <table class="table table-striped">
         <thead>
         <tr>
             <th>제목</th>
@@ -9,11 +9,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="list : ${books}" >
-
-            <td><a th:href="@{'/books/'+${list.id}}"><span th:text="${list.title}"> </span> </a></td>
-            <td><span th:text="${list.author}"> </span></td>
+        <tr th:each="list : ${books}">
+            <td ><a class="text-decoration-none text-black" th:href="@{'/books/'+${list.id}}" ><span th:text="${list.title}"></span></a></td>
+            <td><span th:text="${list.author}"></span></td>
         </tr>
         </tbody>
     </table>
 </div>
+
+</body>
+</html>

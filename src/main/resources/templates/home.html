@@ -3,10 +3,8 @@ xmlns:th="http://www.thymeleaf.org">
 <div layout:fragment="content" class="container my-3">
     <h1 class="mt-4">ArchiveB</h1>
     <p>지금 책을 검색하고, 리뷰와 별점을 확인하세요!</p>
-    <form class="d-flex form-inline" action="/books/search" th:object="${bookSearch}"  >
-        <div class="form-group">
-            <input class="form-control me-2" type="text" th:field="*{searchWord}" placeholder="책 이름/작가 이름을 입력하세요!" >
-        </div>
+    <form class="d-flex" action="/books/search" th:object="${bookSearch}"  >
+        <input class="form-control me-2" type="text" th:field="*{searchWord}" placeholder="책 이름/작가 이름을 입력하세요!" >
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 </div>

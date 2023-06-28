@@ -8,7 +8,7 @@
       <input class="form-control me-2" type="text" th:field="*{searchWord}" placeholder="책 이름/작가 이름을 입력하세요!" >
     <button class="btn btn-outline-success" type="submit">Search</button>
   </form>
-  <table>
+  <table  class="table table-striped">
     <thead>
     <tr>
       <th>제목</th>
@@ -17,7 +17,7 @@
     </thead>
     <tbody>
     <tr th:each="book : ${searchBooks}">
-      <td><a th:href="@{'/books/'+${book.id}}"><span th:text="${book.title}"> </span></a> </td>
+      <td><a th:href="@{'/books/'+${book.id}}" class="text-decoration-none text-black"><span th:text="${book.title}"> </span></a> </td>
       <td><span th:text="${book.author}"> </span></td>
 
     </tr>
@@ -25,3 +25,4 @@
   </table>
 </div>
 </html>
+

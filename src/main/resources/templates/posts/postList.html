@@ -1,22 +1,23 @@
-
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="container my-3">
-  <a th:href="@{/posts/write}" class="btn btn-primary">글쓰기</a>
-
+  <div class="d-flex justify-content-end mb-3">
+    <a th:href="@{/posts/write}" class="btn btn-primary">글쓰기</a>
+  </div>
   <div th:if="${posts}">
-  <table>
-    <thead>
-    <tr>
-      <th>제목</th>
-      <th>날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="list : ${posts}">
-      <td><a th:href="@{'/posts/'+${list.id}}"><span th:text="${list.title}"> </span></td>
-      <td><span th:text="${#temporals.format(list.postDate, 'yyyy-MM-dd')}"></span></td>
-    </tr>
-    </tbody>
-  </table>
+    <table class="table">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">제목</th>
+        <th scope="col">날짜</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="list : ${posts}">
+        <td><a th:href="@{'/posts/'+${list.id}}" class="text-black text-decoration-none"><span th:text="${list.title}"> </span></td>
+        <td><span th:text="${#temporals.format(list.postDate, 'yyyy-MM-dd')}"></span></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
+</html>

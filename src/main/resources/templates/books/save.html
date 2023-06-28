@@ -19,11 +19,21 @@
             <label th:for="author" class="form-label">작가</label>
             <input type="text" th:field="*{author}" id="author" class="form-control">
         </div>
-        <select id="categoryInput" name="category">
+
+        <div class="mb-3 form-group">
+            <label th:for="publisher" class="form-label">출판사</label>
+            <input type="text" th:field="*{publisher}" id="publisher" class="form-control">
+        </div>
+
+        <div class="mb-3 form-group">
+            <label th:for="category" class="form-label">카테고리</label>
+
+            <select id="categoryInput" name="category">
             <option th:each="category : ${T(jpabook.archiveB.domain.Category).values()}"
                     th:value="${category}"
                     th:text="${category.value}"></option>
         </select>
+        </div>
         <div class="mb-3 form-group">
             <label th:for="isbn" class="form-label">isbn</label>
             <input type="text" th:field="*{isbn}" id="isbn" class="form-control">

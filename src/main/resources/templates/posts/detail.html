@@ -1,23 +1,21 @@
-
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="container my-3">
-  <table>
-    <thead>
-    <tr>
-      <th>제목</th>
-      <th>작성날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td><span th:text="${post.title}"> </span></td>
-      <td><span th:text="${#temporals.format(post.postDate, 'yyyy-MM-dd')}"></span></td>
-    </tr>
-    </tbody>
-  </table>
-  <span th:text="${post.content}"> </span>
-  <div>
-  <a th:href="@{'/posts/'+${postId}+'/edit'}" class="btn btn-primary">수정</a>
-  <a th:href="@{'/posts/'+${postId}+'/delete'}" class="btn btn-primary">삭제</a>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2><span th:text="${post.title}"></span></h2>
+        <div>
+          <a th:href="@{'/posts/'+${postId}+'/edit'}" class="btn btn-primary">수정</a>
+          <a th:href="@{'/posts/'+${postId}+'/delete'}" class="btn btn-primary">삭제</a>
+        </div>
+      </div>
+      <p class="text-muted"><span th:text="${#temporals.format(post.postDate, 'yyyy-MM-dd')}"></span></p>
+      <div class="card">
+        <div class="card-body">
+          <span th:text="${post.content}"></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+</html>

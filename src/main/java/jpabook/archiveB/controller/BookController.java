@@ -63,7 +63,7 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/books/list")
-    public String AdminBookList(Model model, int page) throws BaseException {
+    public String AdminBookList(Model model, @RequestParam(defaultValue = "0") int page) throws BaseException {
         model.addAttribute("books",bookService.findBooks(page));
         return "books/adminBookList";
     }
@@ -120,6 +120,7 @@ public class BookController {
                 .id(bookId)
                 .title(bookDto.getTitle())
                 .author(bookDto.getAuthor())
+                .publisher(bookDto.getPublisher())
                 .isbn(bookDto.getIsbn())
                 .plot(bookDto.getPlot())
                 .publicationDate(bookDto.getPublicationDate())

@@ -1,12 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .comment-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .comment-list a {
+            font-weight: bold;
+        }
+        .comment-list .date {
+            margin-left: 10px;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
 <div layout:fragment="content" class="container my-3">
     <!-- 댓글 목록을 표시하는 템플릿 -->
-    <ul>
-        <li th:each="list : ${comments}">
-            <a th:href="@{'/books/'+${list.book.id}}"><span th:text="${list.book.title}"></span></a>
-            <span th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
+    <ul class="comment-list">
+        <li th:each="list : ${comments}" class="list-unstyled col-md-11">
+            <div class="row align-items-center">
+                <div class="col-2">
+                <a th:href="@{'/books/'+${list.book.id}}" class="text-decoration-none">
+                    <span th:text="${list.book.title}"></span>
+                </a>
+                </div>
+                <div class="col-10 text-end">
+                    <a th:href="@{'/comments/'+${list.id}+'/delete'}" class="btn btn-outline-danger text-end">삭제</a>
+                </div>
+            </div>
+            <div class="star-rating">
+                <span th:each="i : ${#numbers.sequence(1, 5)}" th:classappend="${i &lt;= list.star} ? 'filled comment-star' : 'comment-star'">★</span>
+            </div>
             <span th:text="${list.comment}"></span>
+            <span class="date" th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
         </li>
     </ul>
 </div>
+</body>
 </html>

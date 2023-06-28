@@ -18,6 +18,7 @@ public class BookResponseDto {
     private String coverImg;
     private Category category;
     private String plot;
+    private String publisher;
     private String isbn;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -33,6 +34,7 @@ public class BookResponseDto {
         this.coverImg=entity.getCoverImg();
         this.category=entity.getCategory();
         this.plot=entity.getPlot();
+        this.publisher=entity.getPublisher();
         this.isbn=entity.getIsbn();
         this.publicationDate=entity.getPublicationDate();
     }

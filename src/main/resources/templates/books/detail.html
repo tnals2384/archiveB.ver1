@@ -1,65 +1,97 @@
-
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .comment-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .comment-list a {
+            font-weight: bold;
+        }
+        .comment-list .date {
+            margin-left: 10px;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
 <div layout:fragment="content" class="container my-3">
-            <div class="star-rating">
-          <span th:each="i : ${#numbers.sequence(1, 5)}">
-            <span th:classappend="${i &lt;= book.starAvg} ? 'filled star' : 'star'">★</span>
-          </span>
+    <div class="row">
+        <div class="col-md-4">
+            <img th:src="@{/imagePath/}+${book.coverImg}" class="img-fluid mb-2" alt="Book Cover">
+        </div>
+        <div class="col-md-8">
+            <div class="star-rating mb-2">
+                <span th:each="i : ${#numbers.sequence(1, 5)}"
+                      th:classappend="${i &lt;= book.starAvg} ? 'filled star' : 'star'">★</span>
+                <span th:text="${book.starAvg}"></span>
             </div>
-           <span th:text="${book.title}"> </span>
-           <span th:text="${book.author}"> </span>
-           <img th:src="@{/imagePath/}+${book.coverImg}">
-           <span th:text="${book.category}"> </span>
-           <span th:text="${book.plot}"> </span>
-           <span th:text="${book.isbn}"> </span>
-           <span th:text="${book.publicationDate}"> </span>
-    <!-- Comment 목록을 표시하는 템플릿 -->
-    <form class="commentForm"th:action="@{'/comments/'+${bookId}+'/add'}" th:object="${commentDto}"method="post">
-        <span class="text-bold">리뷰 작성하기! </span>
-        <fieldset>
-                <input type="radio" name="star" value="5" th:checked="${commentDto.star=='5'}" id="rate1"><label
-                    for="rate1">★</label>
-                <input type="radio" name="star" value="4" th:checked="${commentDto.star=='4'}" id="rate2"><label
-                    for="rate2">★</label>
-                <input type="radio" name="star" value="3" th:checked="${commentDto.star=='3'}" id="rate3"><label
-                    for="rate3">★</label>
-                <input type="radio" name="star" value="2"  th:checked="${commentDto.star=='2'}" id="rate4"><label
-                    for="rate4">★</label>
-                <input type="radio" name="star" value="1"  th:checked="${commentDto.star=='1'}" id="rate5"><label
-                    for="rate5">★</label>
-            </fieldset>
-            <textarea class="content" th:field="*{content}"></textarea>
-        <div>
-            <button type="submit">댓글 작성</button>
+
+            <h2><span th:text="${book.title}"></span></h2>
+            <p><span th:text="${book.author}"></span></p>
+            <p><span th:text="${book.publisher}"></span></p>
+            <p><span th:text="${book.category}"></span></p>
+            <p><span th:text="${book.isbn}"></span></p>
+            <p><span th:text="${book.plot}"></span></p>
+
+        </div>
+    </div>
+
+    <form class="commentForm" th:action="@{'/comments/'+${bookId}+'/add'}" th:object="${commentDto}" method="post">
+        <div class="col-md-11">
+            <h4 class="font-weight-bold mt-4">리뷰 작성하기!</h4>
+            <div class="row align-items-end">
+                <div class="col-9">
+                    <fieldset>
+                        <div class="star-rating mb-2">
+                            <input type="radio" name="star" value="5" th:checked="${commentDto.star=='5'}"
+                                   id="rate1"><label for="rate1">★</label>
+                            <input type="radio" name="star" value="4" th:checked="${commentDto.star=='4'}"
+                                   id="rate2"><label for="rate2">★</label>
+                            <input type="radio" name="star" value="3" th:checked="${commentDto.star=='3'}"
+                                   id="rate3"><label for="rate3">★</label>
+                            <input type="radio" name="star" value="2" th:checked="${commentDto.star=='2'}"
+                                   id="rate4"><label for="rate4">★</label>
+                            <input type="radio" name="star" value="1" th:checked="${commentDto.star=='1'}"
+                                   id="rate5"><label for="rate5">★</label>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-3 text-end mb-2">
+                    <button type="submit" class="btn btn-primary">댓글 작성</button>
+                </div>
+            </div>
+            <textarea class="content form-control mb-2" th:field="*{content}" placeholder="댓글을 입력하세요..."></textarea>
         </div>
     </form>
-    <ul>
-        <li th:each="list : ${comments}">
-            <div class="star-rating">
-              <span th:each="i : ${#numbers.sequence(1, 5)}">
-                <span th:classappend="${i &lt;= list.star} ? 'filled comment-star' : 'comment-star'">★</span>
-              </span>
+
+    <ul class="comment-list col-md-11">
+        <li th:each="list : ${comments}" class="list-unstyled row align-items-center">
+            <div class="col-2 fw-bold pb-2">
+                <p><span th:text="${list.member.getName()}"></span></p>
             </div>
-            <span th:text="${list.member.getName()}"></span>
-            <span th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
-            <span th:text="${list.comment}"></span>
-            <!-- 현재 사용자가 작성자인 경우에만 수정/삭제 버튼 표시 -->
-            <div th:if="${currentMember==list.member}">
-<!--
-                <a data-bs-toggle="collapse" th:attr="data-bs-target=${list.id}">Edit</a>
--->
-
-                <a th:href="@{'/comments/'+${list.id}+'/delete'}" class="btn btn-primary">삭제</a>
-
-                <!--<form class="collapse" th:id="${list.id}"
-                      th:action="@{'/comments/'+${list.id}+'/edit'}" method="post" th:object="${comment}">
-                    <input type="hidden" id="id" th:field="*{id}" th:value="${list.id}">
-                    <div class="form-group">
-                        <textarea class="form-control" id="comment-content" rows="3" th:field="*{content}" th:text="${list.comment}"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
-                </form>-->
+            <div class="col-6 pb-4">
+                <div class="star-rating">
+                    <span th:each="i : ${#numbers.sequence(1, 5)}" th:classappend="${i &lt;= list.star} ? 'filled comment-star' : 'comment-star'">★</span>
+                </div>
+            </div>
+            <div class="col-2 pb-4">
+                <span class="date" th:text="${#temporals.format(list.date, 'yyyy-MM-dd')}"></span>
+            </div>
+            <div class="col-2 pb-4 text-end">
+            <span th:if="${currentMember==list.member}">
+                <a th:href="@{'/comments/'+${list.id}+'/delete'}" class="btn btn-outline-danger">삭제</a>
+            </span>
+            </div>
+            <div class="col-12">
+                <span th:text="${list.comment}"></span>
             </div>
         </li>
     </ul>
+
+
 </div>
+</html>

@@ -23,6 +23,7 @@ public class BookUpdateRequestDto {
     private String isbn;
     private MultipartFile coverImg;
     private String plot;
+    private String publisher;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -32,12 +33,13 @@ public class BookUpdateRequestDto {
 
     @Builder
     public BookUpdateRequestDto(Long id,String title, String author, String isbn, MultipartFile coverImg,
-                              String plot, LocalDate publicationDate, Category category) {
+                              String plot,String publisher, LocalDate publicationDate, Category category) {
         this.title=title;
         this.author=author;
         this.isbn =isbn;
         this.coverImg=coverImg;
         this.plot=plot;
+        this.publisher=publisher;
         this.publicationDate=publicationDate;
         this.category=category;
     }

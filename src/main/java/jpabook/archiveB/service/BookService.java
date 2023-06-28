@@ -88,7 +88,7 @@ public class BookService {
 
         book.updateBook(dto.getTitle(), dto.getAuthor(),
                 dto.getIsbn(),
-                dto.getPlot(), dto.getPublicationDate(),dto.getCategory());
+                dto.getPlot(),dto.getPublisher(),dto.getPublicationDate(), dto.getCategory());
 
         return id;
     }

@@ -24,6 +24,7 @@ public class BookSaveRequestDto {
     private String isbn;
     private MultipartFile coverImg;
     private String plot;
+    private String publisher;
 
     @Enumerated(EnumType.STRING)
     private Category category;
@@ -33,12 +34,13 @@ public class BookSaveRequestDto {
 
     @Builder
     public BookSaveRequestDto(String title, String author, String isbn, MultipartFile coverImg,
-                              String plot, LocalDate publicationDate, Category category) {
+                              String plot, String publisher,LocalDate publicationDate, Category category) {
         this.title=title;
         this.author=author;
         this.isbn =isbn;
         this.coverImg=coverImg;
         this.plot=plot;
+        this.publisher=publisher;
         this.publicationDate=publicationDate;
         this.category=category;
     }
@@ -51,6 +53,7 @@ public class BookSaveRequestDto {
                 .isbn(isbn)
                 .coverImg(filePath)
                 .plot(plot)
+                .publisher(publisher)
                 .publicationDate(publicationDate)
                 .category(category)
                 .build();

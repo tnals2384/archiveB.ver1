@@ -25,6 +25,8 @@ public class Book extends BaseEntity {
     private String isbn;
     private String coverImg; //책 표지
     private String plot;
+
+    private String publisher;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
 
@@ -36,13 +38,14 @@ public class Book extends BaseEntity {
 
     @Builder
     public Book(String title, String author, String isbn, String coverImg,
-                String plot, LocalDate publicationDate, Category category) {
+                String plot, String publisher,LocalDate publicationDate, Category category) {
         this.title=title;
         this.author =author;
         this.isbn=isbn;
         this.coverImg = coverImg;
         this.plot=plot;
         this.publicationDate=publicationDate;
+        this.publisher=publisher;
         this.category= category;
     }
 
@@ -52,12 +55,13 @@ public class Book extends BaseEntity {
 
 
     public void updateBook(String title, String author, String isbn,
-                      String plot, LocalDate publicationDate, Category category) {
+                      String plot, String publisher,LocalDate publicationDate, Category category) {
         this.title=title;
         this.author = author;
         this.isbn = isbn;
         this.plot = plot;
         this.publicationDate = publicationDate;
+        this.publisher=publisher;
         this.category = category;
     }
 
