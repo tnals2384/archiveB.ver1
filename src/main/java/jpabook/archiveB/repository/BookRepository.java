@@ -5,6 +5,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.archiveB.domain.Book;
+import jpabook.archiveB.domain.Member;
 import jpabook.archiveB.web.dto.book.BookSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,10 @@ public class BookRepository {
         return Optional.ofNullable(book);
     }
 
+    public List<Book> findAll() {
+        return em.createQuery("select u from Book u",Book.class)
+                .getResultList();
+    }
 
     public void deleteBook(Book book) {
         em.remove(book);

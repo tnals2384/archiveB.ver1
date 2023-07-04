@@ -45,6 +45,10 @@ public class CommentService {
         return new CommentResponseDto(entity);
     }
 
+    public int commentsCount(Long bookId) {
+        return commentRepository.commentsCount(bookId);
+    }
+
 
     //코멘트 작성
     @Transactional

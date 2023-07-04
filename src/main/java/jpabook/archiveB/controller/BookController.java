@@ -58,6 +58,8 @@ public class BookController {
     @GetMapping("/books/list")
     public String BookList(Model model,@RequestParam(defaultValue = "0") int page) throws BaseException {
         model.addAttribute("books",bookService.findBooks(page));
+        model.addAttribute("totalPages",bookService.booksCount()/10);
+        model.addAttribute("currentPage", page);
         return "books/bookList";
     }
 
@@ -65,6 +67,8 @@ public class BookController {
     @GetMapping("/admin/books/list")
     public String AdminBookList(Model model, @RequestParam(defaultValue = "0") int page) throws BaseException {
         model.addAttribute("books",bookService.findBooks(page));
+        model.addAttribute("totalPages",bookService.booksCount()/10);
+        model.addAttribute("currentPage", page);
         return "books/adminBookList";
     }
 
@@ -93,6 +97,8 @@ public class BookController {
         // 댓글 조회
         List<CommentResponseDto> comments = commentService.findAllbyBookId(bookId,commentPage);
         model.addAttribute("comments", comments);
+        model.addAttribute("totalPages",commentService.commentsCount(bookId)/5);
+        model.addAttribute("currentPage", commentPage);
         //코멘트 입력을 받아올 dto model에 추가
         model.addAttribute("commentDto",new CommentRequestDto());
         //현재 로그인한 사용자 정보

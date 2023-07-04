@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+
 <body>
 <div layout:fragment="content" class="container my-3">
     <table class="table table-striped">
@@ -10,12 +11,24 @@
         </thead>
         <tbody>
         <tr th:each="list : ${books}">
-            <td ><a class="text-decoration-none text-black" th:href="@{'/books/'+${list.id}}" ><span th:text="${list.title}"></span></a></td>
+            <td><a class="text-decoration-none text-black" th:href="@{'/books/'+${list.id}}"><span th:text="${list.title}"></span></a></td>
             <td><span th:text="${list.author}"></span></td>
         </tr>
         </tbody>
     </table>
-</div>
+    <ul class="pagination justify-content-center">
 
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/books/list(page=${currentPage - 1})}" th:text="Previous"></a>
+        </li>
+        <li th:each="pageNumber : ${#numbers.sequence(0, totalPages)}"
+            th:classappend="${pageNumber == currentPage} ? 'page-item active' : 'page-item'">
+            <a class="page-link" th:href="@{/books/list(page=${pageNumber})}" th:text="${pageNumber}"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{/books/list(page=${currentPage + 1})}" th:text="Next"></a>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

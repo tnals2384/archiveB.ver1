@@ -54,7 +54,9 @@ public class PostService {
         return new PostResponseDto(entity);
     }
 
-
+    public int postsCount() {
+        return postRepository.findAll().size();
+    }
     //post list를 불러온다
     public List<PostResponseDto> findPosts(Long memberId,int pageNo) {
         //Post stream을 map을 통해 PostResponseDto로 변환하여 list로 반환

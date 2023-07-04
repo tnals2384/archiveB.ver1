@@ -39,6 +39,10 @@ public class BookService {
         return responseDto;
     }
 
+    public int booksCount() {
+        return bookRepository.findAll().size();
+    }
+
     //book list를 불러오기 위한 findBooks
     public List<BookResponseDto> findBooks(int pageNo) throws BaseException {
         //Book stream을 map을 통해 BookListResponseDto로 변환하여 list로 반환

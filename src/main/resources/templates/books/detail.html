@@ -92,6 +92,19 @@
         </li>
     </ul>
 
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/books/{bookId}(bookId=${bookId}, commentPage=${currentPage - 1})}" th:text="Previous"></a>
+        </li>
+        <li th:each="pageNumber : ${#numbers.sequence(0, totalPages)}"
+            th:classappend="${pageNumber == currentPage} ? 'page-item active' : 'page-item'">
+            <a class="page-link" th:href="@{/books/{bookId}(bookId=${bookId}, commentPage=${pageNumber})}" th:text="${pageNumber}"></a>
+        </li>
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{/books/{bookId}(bookId=${bookId}, commentPage=${currentPage + 1})}" th:text="Next"></a>
+        </li>
+    </ul>
 
 </div>
 </html>

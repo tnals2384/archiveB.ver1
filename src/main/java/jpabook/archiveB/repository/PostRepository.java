@@ -1,6 +1,7 @@
 package jpabook.archiveB.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Post;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,11 @@ public class PostRepository {
     public Optional<Post> findOne(Long id) {
         Post post= em.find(Post.class, id);
         return Optional.ofNullable(post);
+    }
+
+    public List<Post> findAll() {
+        return em.createQuery("select p from Post p",Post.class)
+                .getResultList();
     }
 
     //페이징

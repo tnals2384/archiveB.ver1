@@ -45,7 +45,6 @@ public class BookSaveRequestDto {
         this.category=category;
     }
 
-
     public Book toEntity(String filePath) {
         return Book.builder()
                 .title(title)

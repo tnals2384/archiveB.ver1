@@ -1,6 +1,7 @@
 package jpabook.archiveB.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jpabook.archiveB.domain.Book;
 import jpabook.archiveB.domain.Comment;
 import jpabook.archiveB.domain.QComment;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,6 @@ public class CommentRepository {
         Comment comment= em.find(Comment.class, id);
         return Optional.ofNullable(comment);
     }
-
-
     public void deleteComment(Comment comment) {
         em.remove(comment);
     }
@@ -58,6 +57,14 @@ public class CommentRepository {
                 .fetch();
 
         return result;
+    }
+
+    public int commentsCount(Long bookId) {
+        QComment comment =comment1;
+
+        return queryFactory.selectFrom(comment)
+                .where(comment.book.id.eq(bookId))
+                .fetch().size();
     }
 
 

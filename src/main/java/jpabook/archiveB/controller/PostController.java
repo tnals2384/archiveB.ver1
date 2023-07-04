@@ -33,6 +33,8 @@ public class PostController {
     public String PostList (Model model,@RequestParam(defaultValue = "0") int page,
                             Principal principal) {
         Long memberId= memberService.getUser(principal.getName()).getId();
+        model.addAttribute("totalPages",postService.postsCount()/10);
+        model.addAttribute("currentPage", page);
         model.addAttribute("posts",postService.findPosts(memberId,page));
         return "posts/postList";
     }

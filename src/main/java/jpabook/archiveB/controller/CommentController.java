@@ -50,7 +50,6 @@ public class CommentController {
     @GetMapping("/comments/{commentId}/delete")
     public String commentDelete(@PathVariable Long commentId, Principal principal) {
         CommentResponseDto commentDto = commentService.findById(commentId);
-
         if (commentDto.getMember() != memberService.getUser(principal.getName())) {
             return "redirect:/books/" + commentDto.getBook().getId();
         }

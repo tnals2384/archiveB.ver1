@@ -13,11 +13,24 @@
       </thead>
       <tbody>
       <tr th:each="list : ${posts}">
-        <td><a th:href="@{'/posts/'+${list.id}}" class="text-black text-decoration-none"><span th:text="${list.title}"> </span></td>
+        <td><a th:href="@{'/posts/'+${list.id}}" class="text-black text-decoration-none"/><span th:text="${list.title}"> </span></td>
         <td><span th:text="${#temporals.format(list.postDate, 'yyyy-MM-dd')}"></span></td>
       </tr>
       </tbody>
     </table>
+    <ul class="pagination justify-content-center">
+
+      <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+        <a class="page-link" th:href="@{/posts/list(page=${currentPage - 1})}" th:text="Previous"></a>
+      </li>
+      <li th:each="pageNumber : ${#numbers.sequence(0, totalPages)}"
+          th:classappend="${pageNumber == currentPage} ? 'page-item active' : 'page-item'">
+        <a class="page-link" th:href="@{/posts/list(page=${pageNumber})}" th:text="${pageNumber}"></a>
+      </li>
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <a class="page-link" th:href="@{/posts/list(page=${currentPage + 1})}" th:text="Next"></a>
+      </li>
+    </ul>
   </div>
 </div>
 </html>
